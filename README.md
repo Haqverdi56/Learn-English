@@ -1,8 +1,8 @@
-📘 Learn English
+# 📘 Learn English
 
 İstifadəçilərin ingilis dilini daha interaktiv və əyləncəli şəkildə öyrənməsi üçün hazırlanmış React əsaslı web tətbiqi.
 
-✨ Xüsusiyyətlər
+# ✨ Xüsusiyyətlər
 
 ⚡ Vite ilə sürətli development mühiti
 🎨 TailwindCSS ilə müasir və responsive dizayn
@@ -11,7 +11,7 @@
 📦 Axios ilə API inteqrasiyası (backend gələcəkdə əlavə olunacaq)
 
 
-🛠️ İstifadə olunan texnologiyalar
+# 🛠️ İstifadə olunan texnologiyalar
 
 React
 Vite
@@ -20,22 +20,22 @@ Framer Motion
 Lucide Icons
 
 
-🚀 Qurmaq və işə salmaq
+# 🚀 Qurmaq və işə salmaq
 
-# Repository-ni clonelə
+Repository-ni clonelə
 git clone https://github.com/senin-username/learn-english.git
 
-# Layihə qovluğuna keç
+Layihə qovluğuna keç
 cd learn-english
 
-# Asılılıqları quraşdır
+Asılılıqları quraşdır
 npm install
 
-# Development server-i işə sal
+Development server-i işə sal
 npm run dev
 
 
-🔮 Yol xəritəsi (Roadmap)
+# 🔮 Yol xəritəsi (Roadmap)
 
  Backend inteqrasiyası (Node.js / Express və ya NestJS)
  İstifadəçi autentifikasiyası (Login / Register)
