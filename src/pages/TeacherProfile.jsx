@@ -35,6 +35,7 @@ const TeacherProfile = () => {
 
 	const tabs = [
 		{ id: 'lessons', label: currentLanguage === 'az' ? 'Dərslər' : 'Lessons' },
+		{ id: 'groups', label: currentLanguage === 'az' ? 'Qruplar' : 'Groups' },
 		{ id: 'reviews', label: currentLanguage === 'az' ? 'Rəylər' : 'Reviews' },
 	];
 
@@ -193,6 +194,112 @@ const TeacherProfile = () => {
 										</div>
 									</motion.div>
 								))}
+							</div>
+						)}
+
+						{activeTab === 'groups' && (
+							<div className='space-y-4'>
+								{teacher.groups && teacher.groups.length > 0 ? (
+									teacher.groups.map((group) => (
+										<motion.div
+											key={group.id}
+											initial={{ opacity: 0, y: 20 }}
+											animate={{ opacity: 1, y: 0 }}
+											className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:shadow-md transition-all duration-300'
+										>
+											<div className='flex items-start justify-between mb-4'>
+												<div className='flex-1'>
+													<h3 className='text-xl font-semibold text-gray-800 mb-2'>{group.name}</h3>
+													<p className='text-gray-600 mb-3'>{group.description}</p>
+
+													<div className='grid md:grid-cols-2 gap-4 mb-4'>
+														<div className='space-y-2'>
+															<div className='flex items-center space-x-2 text-gray-600 text-sm'>
+																<Award size={16} />
+																<span>
+																	{currentLanguage === 'az' ? 'Səviyyə:' : 'Level:'} {group.level}
+																</span>
+															</div>
+															<div className='flex items-center space-x-2 text-gray-600 text-sm'>
+																<Users size={16} />
+																<span>
+																	{group.currentMembers}/{group.maxMembers} {currentLanguage === 'az' ? 'üzv' : 'members'}
+																</span>
+															</div>
+															<div className='flex items-center space-x-2 text-gray-600 text-sm'>
+																<DollarSign size={16} />
+																<span>
+																	${group.price} {currentLanguage === 'az' ? 'dərs başına' : 'per lesson'}
+																</span>
+															</div>
+														</div>
+
+														<div className='space-y-2'>
+															<div className='flex items-center space-x-2 text-gray-600 text-sm'>
+																<Calendar size={16} />
+																<span>{group.schedule.days.join(', ')}</span>
+															</div>
+															<div className='flex items-center space-x-2 text-gray-600 text-sm'>
+																<Clock size={16} />
+																<span>
+																	{group.schedule.time} ({group.schedule.timezone})
+																</span>
+															</div>
+														</div>
+													</div>
+
+													{/* Members Progress Bar */}
+													<div className='mb-4'>
+														<div className='flex items-center justify-between mb-2'>
+															<span className='text-sm font-medium text-gray-600'>
+																{currentLanguage === 'az' ? 'Qrup dolulluğu' : 'Group Capacity'}
+															</span>
+															<span className='text-sm text-gray-500'>{Math.round((group.currentMembers / group.maxMembers) * 100)}%</span>
+														</div>
+														<div className='w-full bg-gray-200 rounded-full h-2'>
+															<div
+																className='bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-300'
+																style={{ width: `${(group.currentMembers / group.maxMembers) * 100}%` }}
+															></div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div className='flex items-center justify-between'>
+												<div className='flex items-center space-x-2'>
+													{group.currentMembers < group.maxMembers ? (
+														<span className='px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium'>
+															{currentLanguage === 'az' ? 'Boş yer var' : 'Available'}
+														</span>
+													) : (
+														<span className='px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium'>
+															{currentLanguage === 'az' ? 'Dolu' : 'Full'}
+														</span>
+													)}
+												</div>
+
+												<button
+													disabled={group.currentMembers >= group.maxMembers}
+													className='px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg font-medium hover:from-indigo-600 hover:to-purple-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
+												>
+													{group.currentMembers >= group.maxMembers
+														? currentLanguage === 'az'
+															? 'Dolu'
+															: 'Full'
+														: currentLanguage === 'az'
+														? 'Qrupa qoşul'
+														: 'Join Group'}
+												</button>
+											</div>
+										</motion.div>
+									))
+								) : (
+									<div className='text-center py-8'>
+										<Users size={48} className='mx-auto text-gray-400 mb-4' />
+										<p className='text-gray-600'>{currentLanguage === 'az' ? 'Hələ ki qrup yoxdur' : 'No groups available yet'}</p>
+									</div>
+								)}
 							</div>
 						)}
 

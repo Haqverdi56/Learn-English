@@ -8,7 +8,7 @@ export const SubscriptionProvider = ({ children }) => {
 		return saved ? JSON.parse(saved) : { isPremium: false, expiresAt: null };
 	});
 
-	const [restrictedPages] = useState(['/dictionary', '/extra-features']);
+	const [restrictedPages] = useState(['/dictionary', '/extra-features', '/grammar', '/skills']);
 
 	useEffect(() => {
 		localStorage.setItem('subscription', JSON.stringify(subscription));

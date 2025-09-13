@@ -60,6 +60,13 @@ const ExtraFeatures = () => {
 			icon: Zap,
 			color: 'from-purple-500 to-indigo-500',
 		},
+		{
+			id: 'irregular-verbs',
+			title: currentLanguage === 'az' ? 'Qaydasız Feillər' : 'Irregular Verbs',
+			description: currentLanguage === 'az' ? 'İngilis dilinin qaydasız feillərini öyrənin' : 'Learn English irregular verbs',
+			icon: BookOpen,
+			color: 'from-teal-500 to-cyan-500',
+		},
 	];
 
 	const phrasalVerbs = [
@@ -88,6 +95,67 @@ const ExtraFeatures = () => {
 		{ idiom: "It's raining cats and dogs", meaning: 'Çox güclü yağış yağır', example: "We can't go out, it's raining cats and dogs." },
 		{ idiom: 'Piece of cake', meaning: 'Çox asan', example: 'The exam was a piece of cake.' },
 		{ idiom: 'Hit the books', meaning: 'Dərs oxumaq', example: "I need to hit the books for tomorrow's test." },
+	];
+
+	const irregularVerbs = [
+		{ base: 'be', past: 'was/were', pastParticiple: 'been', meaning: 'olmaq', example: 'I am happy. / I was happy yesterday. / I have been happy.' },
+		{
+			base: 'go',
+			past: 'went',
+			pastParticiple: 'gone',
+			meaning: 'getmək',
+			example: 'I go to school. / I went yesterday. / I have gone there before.',
+		},
+		{
+			base: 'do',
+			past: 'did',
+			pastParticiple: 'done',
+			meaning: 'etmək',
+			example: 'I do my homework. / I did it yesterday. / I have done it already.',
+		},
+		{
+			base: 'have',
+			past: 'had',
+			pastParticiple: 'had',
+			meaning: 'sahib olmaq',
+			example: 'I have a car. / I had one before. / I have had it for years.',
+		},
+		{ base: 'say', past: 'said', pastParticiple: 'said', meaning: 'demək', example: 'I say hello. / I said goodbye. / I have said it many times.' },
+		{
+			base: 'get',
+			past: 'got',
+			pastParticiple: 'gotten/got',
+			meaning: 'əldə etmək',
+			example: 'I get up early. / I got up late. / I have gotten used to it.',
+		},
+		{
+			base: 'make',
+			past: 'made',
+			pastParticiple: 'made',
+			meaning: 'etmək/yaratmaq',
+			example: 'I make coffee. / I made dinner. / I have made a mistake.',
+		},
+		{
+			base: 'know',
+			past: 'knew',
+			pastParticiple: 'known',
+			meaning: 'bilmək',
+			example: 'I know you. / I knew him well. / I have known her for years.',
+		},
+		{
+			base: 'think',
+			past: 'thought',
+			pastParticiple: 'thought',
+			meaning: 'düşünmək',
+			example: 'I think so. / I thought about it. / I have thought of a solution.',
+		},
+		{
+			base: 'take',
+			past: 'took',
+			pastParticiple: 'taken',
+			meaning: 'götürmək',
+			example: 'I take the bus. / I took a taxi. / I have taken this route before.',
+		},
 	];
 
 	const renderContent = () => {
@@ -171,6 +239,37 @@ const ExtraFeatures = () => {
 								<h3 className='text-xl font-bold text-purple-600 mb-2'>"{item.idiom}"</h3>
 								<p className='text-gray-700 mb-2'>{item.meaning}</p>
 								<p className='text-gray-600 italic'>"{item.example}"</p>
+							</motion.div>
+						))}
+					</div>
+				);
+
+			case 'irregular-verbs':
+				return (
+					<div className='space-y-4'>
+						{irregularVerbs.map((verb, index) => (
+							<motion.div
+								key={index}
+								initial={{ opacity: 0, x: -20 }}
+								animate={{ opacity: 1, x: 0 }}
+								transition={{ delay: index * 0.1 }}
+								className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20'
+							>
+								<div className='grid grid-cols-1 md:grid-cols-4 gap-4 mb-3'>
+									<div>
+										<strong className='text-teal-600'>Base:</strong> {verb.base}
+									</div>
+									<div>
+										<strong className='text-teal-600'>Past:</strong> {verb.past}
+									</div>
+									<div>
+										<strong className='text-teal-600'>Past Participle:</strong> {verb.pastParticiple}
+									</div>
+									<div>
+										<strong className='text-teal-600'>Meaning:</strong> {verb.meaning}
+									</div>
+								</div>
+								<p className='text-gray-600 italic'>"{verb.example}"</p>
 							</motion.div>
 						))}
 					</div>

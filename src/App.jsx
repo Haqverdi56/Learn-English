@@ -14,6 +14,8 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { VocabularyProvider } from './contexts/VocabularyContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
+import Skills from './pages/Skills';
+import Grammar from './pages/Grammar';
 
 function App() {
 	return (
@@ -30,6 +32,8 @@ function App() {
 									<Route path='/story-listening' element={<StoryListening />} />
 									<Route path='/story/:id' element={<StoryDetail />} />
 									<Route path='/dictionary' element={<Dictionary />} />
+									<Route path='/skills' element={<Skills />} />
+									<Route path='/grammar' element={<Grammar />} />
 									<Route path='/extra-features' element={<ExtraFeatures />} />
 									<Route path='/teachers' element={<Teachers />} />
 									<Route path='/teacher/:id' element={<TeacherProfile />} />

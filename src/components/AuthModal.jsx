@@ -57,39 +57,57 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
-				className='fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4'
+				className='fixed inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/60 backdrop-blur-md z-[100] flex items-center justify-center p-4'
 				onClick={handleClose}
 			>
 				<motion.div
-					initial={{ scale: 0.9, opacity: 0 }}
-					animate={{ scale: 1, opacity: 1 }}
-					exit={{ scale: 0.9, opacity: 0 }}
-					className='bg-white rounded-2xl max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto mt-150'
+					initial={{ scale: 0.8, opacity: 0, y: 20 }}
+					animate={{ scale: 1, opacity: 1, y: 0 }}
+					exit={{ scale: 0.8, opacity: 0, y: 20 }}
+					transition={{ type: 'spring', duration: 0.5 }}
+					className='bg-white/95 backdrop-blur-xl rounded-3xl max-w-md w-full shadow-2xl border border-white/20 max-h-[90vh] overflow-y-auto'
 					onClick={(e) => e.stopPropagation()}
 				>
 					{/* Header */}
-					<div className='flex items-center justify-between p-6 border-b border-gray-100'>
-						<h2 className='text-2xl font-bold text-gray-800'>
-							{mode === 'login' ? (currentLanguage === 'az' ? 'Daxil ol' : 'Login') : currentLanguage === 'az' ? 'Qeydiyyat' : 'Sign Up'}
-						</h2>
-						<button onClick={handleClose} className='p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors'>
-							<X size={20} />
-						</button>
+					<div className='relative p-8 pb-6'>
+						<div className='absolute inset-0 bg-gradient-to-br from-blue-50/80 to-purple-50/80 rounded-t-3xl'></div>
+						<div className='relative flex items-center justify-between'>
+							<div>
+								<h2 className='text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'>
+									{mode === 'login' ? (currentLanguage === 'az' ? 'Daxil ol' : 'Welcome Back') : currentLanguage === 'az' ? 'Qeydiyyat' : 'Join Us'}
+								</h2>
+								<p className='text-gray-600 mt-2'>
+									{mode === 'login'
+										? currentLanguage === 'az'
+											? 'Hesabınıza daxil olun'
+											: 'Sign in to your account'
+										: currentLanguage === 'az'
+										? 'Yeni hesab yaradın'
+										: 'Create your new account'}
+								</p>
+							</div>
+							<button
+								onClick={handleClose}
+								className='p-2 text-gray-400 hover:text-gray-600 hover:bg-white/50 rounded-xl transition-all duration-200'
+							>
+								<X size={24} />
+							</button>
+						</div>
 					</div>
 
 					{/* Form */}
-					<form onSubmit={handleSubmit} className='p-6 space-y-4'>
+					<form onSubmit={handleSubmit} className='px-8 pb-8 space-y-6'>
 						{mode === 'signup' && (
 							<div>
-								<label className='block text-sm font-medium text-gray-700 mb-2'>{currentLanguage === 'az' ? 'Ad' : 'Name'}</label>
+								<label className='block text-sm font-semibold text-gray-700 mb-3'>{currentLanguage === 'az' ? 'Ad Soyad' : 'Full Name'}</label>
 								<div className='relative'>
-									<User size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
+									<User size={20} className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400' />
 									<input
 										type='text'
 										value={name}
 										onChange={(e) => setName(e.target.value)}
-										className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors'
-										placeholder={currentLanguage === 'az' ? 'Adınızı daxil edin' : 'Enter your name'}
+										className='w-full pl-12 pr-4 py-4 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-800 placeholder-gray-500'
+										placeholder={currentLanguage === 'az' ? 'Adınızı daxil edin' : 'Enter your full name'}
 										required
 									/>
 								</div>
@@ -97,82 +115,108 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 						)}
 
 						<div>
-							<label className='block text-sm font-medium text-gray-700 mb-2'>{currentLanguage === 'az' ? 'E-poçt' : 'Email'}</label>
+							<label className='block text-sm font-semibold text-gray-700 mb-3'>{currentLanguage === 'az' ? 'E-poçt ünvanı' : 'Email Address'}</label>
 							<div className='relative'>
-								<Mail size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
+								<Mail size={20} className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400' />
 								<input
 									type='email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors'
-									placeholder={currentLanguage === 'az' ? 'E-poçt ünvanınızı daxil edin' : 'Enter your email'}
+									className='w-full pl-12 pr-4 py-4 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-800 placeholder-gray-500'
+									placeholder={currentLanguage === 'az' ? 'E-poçt ünvanınızı daxil edin' : 'Enter your email address'}
 									required
 								/>
 							</div>
 						</div>
 
 						<div>
-							<label className='block text-sm font-medium text-gray-700 mb-2'>{currentLanguage === 'az' ? 'Şifrə' : 'Password'}</label>
+							<label className='block text-sm font-semibold text-gray-700 mb-3'>{currentLanguage === 'az' ? 'Şifrə' : 'Password'}</label>
 							<div className='relative'>
-								<Lock size={20} className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
+								<Lock size={20} className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400' />
 								<input
 									type={showPassword ? 'text' : 'password'}
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									className='w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors'
+									className='w-full pl-12 pr-14 py-4 bg-white/70 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-800 placeholder-gray-500'
 									placeholder={currentLanguage === 'az' ? 'Şifrənizi daxil edin' : 'Enter your password'}
 									required
 								/>
 								<button
 									type='button'
 									onClick={() => setShowPassword(!showPassword)}
-									className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600'
+									className='absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors'
 								>
 									{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
 								</button>
 							</div>
 						</div>
 
-						{error && <div className='text-red-600 text-sm bg-red-50 p-3 rounded-lg'>{error}</div>}
+						{error && (
+							<motion.div
+								initial={{ opacity: 0, y: -10 }}
+								animate={{ opacity: 1, y: 0 }}
+								className='text-red-600 text-sm bg-red-50 p-4 rounded-xl border border-red-200'
+							>
+								{error}
+							</motion.div>
+						)}
 
 						<button
 							type='submit'
 							disabled={loading}
-							className='w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg font-medium hover:from-blue-600 hover:to-purple-600 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
+							className='w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-4 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]'
 						>
 							{loading ? (
 								<div className='flex items-center justify-center'>
-									<div className='animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2'></div>
+									<div className='animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3'></div>
 									{currentLanguage === 'az' ? 'Gözləyin...' : 'Loading...'}
 								</div>
 							) : mode === 'login' ? (
 								currentLanguage === 'az' ? (
 									'Daxil ol'
 								) : (
-									'Login'
+									'Sign In'
 								)
 							) : currentLanguage === 'az' ? (
-								'Qeydiyyat'
+								'Hesab yarat'
 							) : (
-								'Sign Up'
+								'Create Account'
 							)}
 						</button>
 					</form>
 
 					{/* Footer */}
-					<div className='p-6 bg-gray-50 rounded-b-2xl text-center'>
-						<p className='text-gray-600'>
-							{mode === 'login'
-								? currentLanguage === 'az'
-									? 'Hesabınız yoxdur?'
-									: "Don't have an account?"
-								: currentLanguage === 'az'
-								? 'Artıq hesabınız var?'
-								: 'Already have an account?'}
-							<button onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className='ml-2 text-blue-600 hover:text-blue-800 font-medium'>
-								{mode === 'login' ? (currentLanguage === 'az' ? 'Qeydiyyat' : 'Sign Up') : currentLanguage === 'az' ? 'Daxil ol' : 'Login'}
+					<div className='px-8 pb-8'>
+						<div className='relative'>
+							<div className='absolute inset-0 flex items-center'>
+								<div className='w-full border-t border-gray-200'></div>
+							</div>
+							<div className='relative flex justify-center text-sm'>
+								<span className='px-4 bg-white text-gray-500'>
+									{mode === 'login'
+										? currentLanguage === 'az'
+											? 'Hesabınız yoxdur?'
+											: "Don't have an account?"
+										: currentLanguage === 'az'
+										? 'Artıq hesabınız var?'
+										: 'Already have an account?'}
+								</span>
+							</div>
+						</div>
+						<div className='mt-6 text-center'>
+							<button
+								onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+								className='text-blue-600 hover:text-blue-800 font-semibold transition-colors'
+							>
+								{mode === 'login'
+									? currentLanguage === 'az'
+										? 'Qeydiyyatdan keç'
+										: 'Create Account'
+									: currentLanguage === 'az'
+									? 'Daxil ol'
+									: 'Sign In'}
 							</button>
-						</p>
+						</div>
 					</div>
 				</motion.div>
 			</motion.div>
