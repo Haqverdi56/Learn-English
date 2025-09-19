@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Headphones, BookOpen, PenTool, Mic, Play, Check, X } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { getSkillsByType, getSkillsByLevel, getAllSkillLevels } from '../data/skills';
+import { selectCurrentLanguage } from '../store/slices/languageSlice';
+import { useSelector } from 'react-redux';
 
 const Skills = () => {
 	const [selectedSkill, setSelectedSkill] = useState('listening');
@@ -12,8 +13,8 @@ const Skills = () => {
 	const [userAnswers, setUserAnswers] = useState({});
 	const [showResults, setShowResults] = useState(false);
 
-	const { currentLanguage } = useLanguage();
 	const levels = getAllSkillLevels();
+	const currentLanguage = useSelector(selectCurrentLanguage);
 
 	const skills = [
 		{ id: 'listening', label: currentLanguage === 'az' ? 'Dinləmə' : 'Listening', icon: Headphones, color: 'from-blue-500 to-cyan-500' },

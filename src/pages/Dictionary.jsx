@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Volume2, Filter } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useSubscription } from '../contexts/SubscriptionContext';
+import { useSelector } from 'react-redux';
 import { getAllDictionaryWords } from '../data/dictionary';
 import WordDetailModal from '../components/WordDetailModal';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
+import { selectCanAccessPage } from '../store/slices/subscriptionSlice';
 
 const Dictionary = () => {
 	const [words, setWords] = useState([]);
@@ -14,15 +15,16 @@ const Dictionary = () => {
 	const [selectedWord, setSelectedWord] = useState(null);
 	const [loading, setLoading] = useState(true);
 
-	const { currentLanguage, translations } = useLanguage();
-	const { canAccessPage } = useSubscription();
-	const t = translations[currentLanguage];
+	const canAccessPage = useSelector((state) => selectCanAccessPage(state, '/dictionary'));
+
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
 
 	const partsOfSpeech = ['noun', 'verb', 'adjective', 'adverb', 'preposition', 'conjunction', 'pronoun', 'interjection'];
 	const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 	useEffect(() => {
-		if (!canAccessPage('/dictionary')) {
+		if (!canAccessPage) {
 			return;
 		}
 
@@ -33,7 +35,7 @@ const Dictionary = () => {
 		}, 1000);
 	}, [canAccessPage]);
 
-	if (!canAccessPage('/dictionary')) {
+	if (!canAccessPage) {
 		return (
 			<div className='min-h-screen flex items-center justify-center'>
 				<div className='text-center'>

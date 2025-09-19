@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Shuffle, Heart, Zap } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useSubscription } from '../contexts/SubscriptionContext';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
+import { useSelector } from 'react-redux';
+import { selectCanAccessPage } from '../store/slices/subscriptionSlice';
 
 const ExtraFeatures = () => {
 	const [selectedFeature, setSelectedFeature] = useState('phrasal-verbs');
-	const { currentLanguage, translations } = useLanguage();
-	const { canAccessPage } = useSubscription();
-	const t = translations[currentLanguage];
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
 
-	if (!canAccessPage('/extra-features')) {
+	const canAccess = useSelector((state) => selectCanAccessPage(state, '/extra-features'));
+
+	if (!canAccess) {
 		return (
 			<div className='min-h-screen flex items-center justify-center'>
 				<div className='text-center'>
-					<h2 className='text-3xl font-bold text-gray-800 mb-4'>{currentLanguage === 'az' ? 'Premium Funksiya' : 'Premium Feature'}</h2>
+					<h2 className='text-3xl font-bold text-gray-800 mb-4'>
+						{currentLanguage === 'az' ? 'Premium Funksiya' : 'Premium Feature'}
+					</h2>
 					<p className='text-gray-600 mb-6'>
 						{currentLanguage === 'az'
 							? 'Bu səhifəyə daxil olmaq üçün premium abunəlik lazımdır.'

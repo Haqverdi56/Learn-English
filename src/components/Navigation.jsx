@@ -1,43 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, Headphones, Home, User, LogOut, Book, Zap, Users, Crown, Menu, X, GraduationCap, Target } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useAuth } from '../contexts/AuthContext';
-import { useSubscription } from '../contexts/SubscriptionContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { BookOpen, Headphones, Home, User, LogOut, Book, Zap, Users, Crown, Menu, X, GraduationCap, Target, Calendar } from 'lucide-react';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
+import { logout } from '../store/slices/authSlice';
+import { selectIsPageRestricted, selectCanAccessPage } from '../store/slices/subscriptionSlice';
 import AuthModal from './AuthModal';
+import { store } from '../store';
 
 const Navigation = () => {
 	const location = useLocation();
-	const { currentLanguage, translations } = useLanguage();
-	const { user, logout, isAuthenticated } = useAuth();
-	const { canAccessPage, isPageRestricted } = useSubscription();
+	const dispatch = useDispatch();
+
+	// 🔹 Global state
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
+	const user = useSelector((state) => state.auth.user);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+	// 🔹 Local state
 	const [showAuthModal, setShowAuthModal] = useState(false);
 	const [authMode, setAuthMode] = useState('login');
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-	const t = translations[currentLanguage];
 
-	const navItems = [
-		{ path: '/', label: t.home, icon: Home },
-		{ path: '/word-learning', label: t.wordLearning, icon: BookOpen },
-		{ path: '/story-listening', label: t.storyListening, icon: Headphones },
-		{ path: '/dictionary', label: t.dictionary, icon: Book },
-		{ path: '/grammar', label: currentLanguage === 'az' ? 'Qrammatika' : 'Grammar', icon: GraduationCap },
-		{ path: '/skills', label: currentLanguage === 'az' ? 'Bacarıqlar' : 'Skills', icon: Target },
-		{ path: '/extra-features', label: t.extraFeatures, icon: Zap },
-		{ path: '/teachers', label: t.teachers, icon: Users },
-	];
+	// 🔹 Nav items (sabit liste, render’da değişmez)
+	const navItems = useMemo(
+		() => [
+			{ path: '/', label: t.home, icon: Home },
+			{ path: '/daily-words', label: currentLanguage === 'az' ? 'Hər Gün 10' : 'Daily 10', icon: Calendar },
+			{ path: '/word-learning', label: t.wordLearning, icon: BookOpen },
+			{ path: '/story-listening', label: t.storyListening, icon: Headphones },
+			{ path: '/dictionary', label: t.dictionary, icon: Book },
+			{ path: '/grammar', label: currentLanguage === 'az' ? 'Qrammatika' : 'Grammar', icon: GraduationCap },
+			{ path: '/skills', label: currentLanguage === 'az' ? 'Bacarıqlar' : 'Skills', icon: Target },
+			{ path: '/extra-features', label: t.extraFeatures, icon: Zap },
+			{ path: '/teachers', label: t.teachers, icon: Users },
+		],
+		[t, currentLanguage]
+	);
+
+	// 🔹 Restrictions & access (tek sefer hesaplanır, yeni obje oluşmaz)
+	const restrictions = useMemo(() => {
+		const state = store.getState(); // global redux state’e erişim
+		return Object.fromEntries(navItems.map(({ path }) => [path, selectIsPageRestricted(state, path)]));
+	}, [navItems]);
+
+	const access = useMemo(() => {
+		const state = store.getState();
+		return Object.fromEntries(navItems.map(({ path }) => [path, selectCanAccessPage(state, path)]));
+	}, [navItems]);
 
 	const handleNavClick = (path, e) => {
-		if (isPageRestricted(path) && !canAccessPage(path)) {
+		if (restrictions[path] && !access[path]) {
 			e.preventDefault();
 			window.location.href = '/subscription';
 		}
 		setIsMobileMenuOpen(false);
 	};
 
-	const toggleMobileMenu = () => {
-		setIsMobileMenuOpen(!isMobileMenuOpen);
-	};
+	const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
 	return (
 		<>
@@ -64,7 +85,7 @@ const Navigation = () => {
 								>
 									<Icon size={16} />
 									<span>{label}</span>
-									{isPageRestricted(path) && <Crown size={12} className='text-yellow-500' />}
+									{restrictions[path] && <Crown size={12} className='text-yellow-500' />}
 								</Link>
 							))}
 						</div>
@@ -88,7 +109,7 @@ const Navigation = () => {
 										<span className='font-medium text-sm'>{user?.name}</span>
 									</div>
 									<button
-										onClick={logout}
+										onClick={() => dispatch(logout())}
 										className='flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors text-sm'
 									>
 										<LogOut size={14} />
@@ -146,7 +167,7 @@ const Navigation = () => {
 								>
 									<Icon size={20} />
 									<span className='font-medium'>{label}</span>
-									{isPageRestricted(path) && <Crown size={14} className='text-yellow-500 ml-auto' />}
+									{restrictions[path] && <Crown size={14} className='text-yellow-500 ml-auto' />}
 								</Link>
 							))}
 
@@ -169,7 +190,7 @@ const Navigation = () => {
 									</div>
 									<button
 										onClick={() => {
-											logout();
+											dispatch(logout());
 											setIsMobileMenuOpen(false);
 										}}
 										className='flex items-center space-x-3 px-3 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors w-full'

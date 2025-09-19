@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, signupUser } from '../store/slices/authSlice';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 
 const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 	const [mode, setMode] = useState(initialMode);
@@ -10,29 +11,24 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState('');
 
-	const { login, signup } = useAuth();
-	const { currentLanguage } = useLanguage();
+	const dispatch = useDispatch();
+	const { loading, error } = useSelector((state) => state.auth);
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	// const t = useSelector(selectTranslations);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
-		setError('');
 
-		try {
-			if (mode === 'login') {
-				await login(email, password);
-			} else {
-				await signup(email, password, name);
-			}
-			onClose();
-			resetForm();
-		} catch (err) {
-			setError(currentLanguage === 'az' ? 'Xəta baş verdi' : 'An error occurred');
-		} finally {
-			setLoading(false);
+		if (mode === 'login') {
+			await dispatch(loginUser(email, password));
+		} else {
+			await dispatch(signupUser(email, password, name));
+		}
+
+		const auth = JSON.parse(localStorage.getItem('user'));
+		if (auth) {
+			handleClose();
 		}
 	};
 
@@ -40,7 +36,6 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 		setEmail('');
 		setPassword('');
 		setName('');
-		setError('');
 		setShowPassword(false);
 	};
 

@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Clock, Play } from 'lucide-react';
 import { storiesData } from '../data/stories';
-import { useLanguage } from '../contexts/LanguageContext';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
+import { useSelector } from 'react-redux';
 
 const StoryListening = () => {
-	const { currentLanguage, translations } = useLanguage();
 	const [selectedLevels, setSelectedLevels] = useState([]);
-	const t = translations[currentLanguage];
+
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
 
 	const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 

@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Star, Users, Clock, Award } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { teachersData } from '../data/teachers';
+import { useSelector } from 'react-redux';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 
 const Teachers = () => {
-	const { currentLanguage, translations } = useLanguage();
-	const t = translations[currentLanguage];
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
 
 	const renderStars = (rating) => {
 		return Array.from({ length: 5 }, (_, index) => (

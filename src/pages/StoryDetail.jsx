@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, ArrowLeft, Volume2, Languages } from 'lucide-react';
+import { Play, Pause, ArrowLeft, Languages } from 'lucide-react';
 import { storiesData } from '../data/stories';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useVocabulary } from '../contexts/VocabularyContext';
-import WordDetailModal from '../components/WordDetailModal';
 import { getAllWords } from '../data/words';
+import WordDetailModal from '../components/WordDetailModal';
+import { useSelector } from 'react-redux';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import axios from 'axios';
 
 const StoryDetail = () => {
@@ -23,8 +23,8 @@ const StoryDetail = () => {
 	const [selectedSegment, setSelectedSegment] = useState(null);
 	const [allWords, setAllWords] = useState([]);
 
-	const { currentLanguage, translations } = useLanguage();
-	const t = translations[currentLanguage];
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
 
 	const story = storiesData.find((s) => s.id === id);
 

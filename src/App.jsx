@@ -7,44 +7,42 @@ import StoryListening from './pages/StoryListening';
 import StoryDetail from './pages/StoryDetail';
 import Dictionary from './pages/Dictionary';
 import ExtraFeatures from './pages/ExtraFeatures';
-import Teachers from './pages/Teacher';
+import Teachers from './pages/Teachers';
 import TeacherProfile from './pages/TeacherProfile';
 import Subscription from './pages/Subscription';
-import { LanguageProvider } from './contexts/LanguageContext';
-import { VocabularyProvider } from './contexts/VocabularyContext';
-import { AuthProvider } from './contexts/AuthContext';
-import { SubscriptionProvider } from './contexts/SubscriptionContext';
+import DailyWords from './pages/DailyWords';
 import Skills from './pages/Skills';
 import Grammar from './pages/Grammar';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import Profile from './pages/Profile';
+import Footer from './components/Footer';
 
 function App() {
 	return (
-		<AuthProvider>
-			<SubscriptionProvider>
-				<LanguageProvider>
-					<VocabularyProvider>
-						<Router>
-							<div className='min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'>
-								<Navigation />
-								<Routes>
-									<Route path='/' element={<Home />} />
-									<Route path='/word-learning' element={<WordLearning />} />
-									<Route path='/story-listening' element={<StoryListening />} />
-									<Route path='/story/:id' element={<StoryDetail />} />
-									<Route path='/dictionary' element={<Dictionary />} />
-									<Route path='/skills' element={<Skills />} />
-									<Route path='/grammar' element={<Grammar />} />
-									<Route path='/extra-features' element={<ExtraFeatures />} />
-									<Route path='/teachers' element={<Teachers />} />
-									<Route path='/teacher/:id' element={<TeacherProfile />} />
-									<Route path='/subscription' element={<Subscription />} />
-								</Routes>
-							</div>
-						</Router>
-					</VocabularyProvider>
-				</LanguageProvider>
-			</SubscriptionProvider>
-		</AuthProvider>
+		<Provider store={store}>
+			<Router>
+				<div className='min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50'>
+					<Navigation />
+					<Routes>
+						<Route path='/' element={<Home />} />
+						<Route path='/word-learning' element={<WordLearning />} />
+						<Route path='/story-listening' element={<StoryListening />} />
+						<Route path='/story/:id' element={<StoryDetail />} />
+						<Route path='/dictionary' element={<Dictionary />} />
+						<Route path='/skills' element={<Skills />} />
+						<Route path='/grammar' element={<Grammar />} />
+						<Route path='/extra-features' element={<ExtraFeatures />} />
+						<Route path='/teachers' element={<Teachers />} />
+						<Route path='/teacher/:id' element={<TeacherProfile />} />
+						<Route path='/subscription' element={<Subscription />} />
+						<Route path='/daily-words' element={<DailyWords />} />
+						<Route path='/profile' element={<Profile />} />
+					</Routes>
+					<Footer />
+				</div>
+			</Router>
+		</Provider>
 	);
 }
 

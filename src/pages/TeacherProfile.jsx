@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Star, Users, Clock, Award, MapPin, Calendar, DollarSign } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { teachersData } from '../data/teachers';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
+import { useSelector } from 'react-redux';
 
 const TeacherProfile = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [activeTab, setActiveTab] = useState('lessons');
-	const { currentLanguage, translations } = useLanguage();
-	const t = translations[currentLanguage];
+
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const t = useSelector(selectTranslations);
 
 	const teacher = teachersData.find((t) => t.id === id);
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createSlice } from '@reduxjs/toolkit';
 
 const translations = {
 	en: {
@@ -6,6 +6,8 @@ const translations = {
 		wordLearning: 'Learn Words',
 		storyListening: 'Listen Stories',
 		dictionary: 'Dictionary',
+		grammar: 'Grammar',
+		skills: 'Skills',
 		extraFeatures: 'Extra Features',
 		teachers: 'Teachers',
 		subscription: 'Subscription',
@@ -42,6 +44,8 @@ const translations = {
 		wordLearning: 'Söz Öyrən',
 		storyListening: 'Hekayə Dinlə',
 		dictionary: 'Lüğət',
+		grammar: 'Qrammatika',
+		skills: 'Bacarıqlar',
 		extraFeatures: 'Əlavə Funksiyalar',
 		teachers: 'Müəllimlər',
 		subscription: 'Abunəlik',
@@ -75,18 +79,30 @@ const translations = {
 	},
 };
 
-const LanguageContext = createContext();
-
-export const LanguageProvider = ({ children }) => {
-	const [currentLanguage, setCurrentLanguage] = useState('az');
-
-	return <LanguageContext.Provider value={{ currentLanguage, setCurrentLanguage, translations }}>{children}</LanguageContext.Provider>;
+const initialState = {
+	currentLanguage: localStorage.getItem('language') || 'az',
+	translations,
 };
 
-export const useLanguage = () => {
-	const context = useContext(LanguageContext);
-	if (!context) {
-		throw new Error('useLanguage must be used within a LanguageProvider');
-	}
-	return context;
-};
+const languageSlice = createSlice({
+	name: 'language',
+	initialState,
+	reducers: {
+		setLanguage: (state, action) => {
+			state.currentLanguage = action.payload;
+			localStorage.setItem('language', action.payload);
+		},
+		toggleLanguage: (state) => {
+			state.currentLanguage = state.currentLanguage === 'az' ? 'en' : 'az';
+			localStorage.setItem('language', state.currentLanguage);
+		},
+	},
+});
+
+export const { setLanguage, toggleLanguage } = languageSlice.actions;
+
+// Selectors
+export const selectCurrentLanguage = (state) => state.language.currentLanguage;
+export const selectTranslations = (state) => state.language.translations[state.language.currentLanguage];
+
+export default languageSlice.reducer;

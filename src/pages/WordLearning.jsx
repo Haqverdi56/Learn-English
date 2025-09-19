@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, RotateCcw, Check, X } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useVocabulary } from '../contexts/VocabularyContext';
+import { addToLearned, addToUnknown } from '../store/slices/vocabularySlice';
 import { wordsData, generateMoreWords } from '../data/words';
+import { useDispatch, useSelector } from 'react-redux';
 import WordDetailModal from '../components/WordDetailModal';
+import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 
 const WordLearning = () => {
 	const [words, setWords] = useState(wordsData);
@@ -16,9 +17,11 @@ const WordLearning = () => {
 	const [hasMoreWords, setHasMoreWords] = useState(true);
 	const [loadedWordIds, setLoadedWordIds] = useState(new Set(wordsData.map((w) => w.id)));
 
-	const { currentLanguage, translations } = useLanguage();
-	const { addToLearned, addToUnknown, isLearned, isUnknown } = useVocabulary();
-	const t = translations[currentLanguage];
+	const dispatch = useDispatch();
+	const learnedWords = useSelector((state) => state.vocabulary.learnedWords);
+	const unknownWords = useSelector((state) => state.vocabulary.unknownWords);
+	const t = useSelector(selectTranslations);
+	const currentLanguage = useSelector(selectCurrentLanguage);
 
 	const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -152,6 +155,8 @@ const WordLearning = () => {
 						const isFlipped = flippedCards.has(word.id);
 						const frontText = displayLanguage === 'en' ? word.english : word.azerbaijani;
 						const backText = displayLanguage === 'en' ? word.azerbaijani : word.english;
+						const learned = learnedWords.includes(word.id);
+						const unknown = unknownWords.includes(word.id);
 
 						return (
 							<motion.div
@@ -225,10 +230,10 @@ const WordLearning = () => {
 												<button
 													onClick={(e) => {
 														e.stopPropagation();
-														addToLearned(word.id);
+														dispatch(addToLearned(word.id));
 													}}
 													className={`p-2 rounded-lg transition-colors ${
-														isLearned(word.id) ? 'bg-green-100 text-green-600' : 'text-green-600 hover:bg-green-50'
+														learned ? 'bg-green-100 text-green-600' : 'text-green-600 hover:bg-green-50'
 													}`}
 													title={t.learned}
 												>
@@ -248,11 +253,9 @@ const WordLearning = () => {
 												<button
 													onClick={(e) => {
 														e.stopPropagation();
-														addToUnknown(word.id);
+														dispatch(addToUnknown(word.id));
 													}}
-													className={`p-2 rounded-lg transition-colors ${
-														isUnknown(word.id) ? 'bg-red-100 text-red-600' : 'text-red-600 hover:bg-red-50'
-													}`}
+													className={`p-2 rounded-lg transition-colors ${unknown ? 'bg-red-100 text-red-600' : 'text-red-600 hover:bg-red-50'}`}
 													title={t.unknown}
 												>
 													<X size={16} />
@@ -295,8 +298,6 @@ const WordLearning = () => {
 
 			{/* Word Detail Modal */}
 			<AnimatePresence>{selectedWord && <WordDetailModal word={selectedWord} onClose={() => setSelectedWord(null)} />}</AnimatePresence>
-
-			
 		</div>
 	);
 };

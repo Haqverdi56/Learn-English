@@ -1,15 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
 import { Check, Crown, Star, Zap } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useSubscription } from '../contexts/SubscriptionContext';
-import { useAuth } from '../contexts/AuthContext';
+import { selectCurrentLanguage } from '../store/slices/languageSlice';
+import { subscribe } from '../store/slices/subscriptionSlice';
 
 const Subscription = () => {
-	const { currentLanguage, translations } = useLanguage();
-	const { subscription, subscribe } = useSubscription();
-	const { isAuthenticated } = useAuth();
-	const t = translations[currentLanguage];
+	const dispatch = useDispatch();
+	const currentLanguage = useSelector(selectCurrentLanguage);
+	const subscription = useSelector((state) => state.subscription.subscription);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 	const features = {
 		free: [
@@ -29,13 +29,13 @@ const Subscription = () => {
 		],
 	};
 
-	const handleSubscribe = () => {
+	const handleSubscribe = (type) => {
 		if (!isAuthenticated) {
 			alert(currentLanguage === 'az' ? 'Abunə olmaq üçün daxil olun' : 'Please login to subscribe');
 			return;
 		}
 
-		subscribe();
+		dispatch(subscribe({ type }));
 		alert(currentLanguage === 'az' ? 'Uğurla abunə oldunuz!' : 'Successfully subscribed!');
 	};
 
@@ -45,7 +45,7 @@ const Subscription = () => {
 				{/* Header */}
 				<div className='text-center mb-16'>
 					<h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent mb-6'>
-						{t.subscription}
+						{currentLanguage === 'az' ? 'Abunəlik' : 'Subscription'}
 					</h1>
 					<p className='text-xl text-gray-600 max-w-3xl mx-auto'>
 						{currentLanguage === 'az'
@@ -70,7 +70,7 @@ const Subscription = () => {
 				)}
 
 				{/* Pricing Cards */}
-				<div className='grid md:grid-cols-2 gap-8 max-w-4xl mx-auto'>
+				<div className='grid md:grid-cols-3 gap-8 max-w-6xl mx-auto'>
 					{/* Free Plan */}
 					<motion.div
 						initial={{ opacity: 0, y: 20 }}
@@ -137,7 +137,7 @@ const Subscription = () => {
 						</ul>
 
 						<button
-							onClick={handleSubscribe}
+							onClick={() => handleSubscribe('monthly')}
 							disabled={subscription.isPremium}
 							className={`w-full py-3 px-6 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
 								subscription.isPremium
@@ -154,6 +154,68 @@ const Subscription = () => {
 								<>
 									<Zap size={20} />
 									<span>{currentLanguage === 'az' ? 'Premium-a Keç' : 'Upgrade to Premium'}</span>
+								</>
+							)}
+						</button>
+					</motion.div>
+
+					{/* Lifetime Plan */}
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: 0.2 }}
+						className='bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-8 shadow-xl border-2 border-purple-200 relative'
+					>
+						<div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
+							<div className='bg-gradient-to-r from-purple-400 to-indigo-500 text-white px-6 py-2 rounded-full text-sm font-bold flex items-center space-x-1'>
+								<Crown size={16} />
+								<span>{currentLanguage === 'az' ? 'Ömürlük' : 'Lifetime'}</span>
+							</div>
+						</div>
+
+						<div className='text-center mb-8 mt-4'>
+							<h3 className='text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center space-x-2'>
+								<Crown size={24} className='text-purple-500' />
+								<span>{currentLanguage === 'az' ? 'Ömürlük' : 'Lifetime'}</span>
+							</h3>
+							<div className='text-4xl font-bold text-gray-800 mb-2'>
+								₼100
+								<span className='text-lg font-normal text-gray-600'>/{currentLanguage === 'az' ? 'bir dəfə' : 'one time'}</span>
+							</div>
+							<p className='text-gray-600'>{currentLanguage === 'az' ? 'Ömürlük giriş' : 'Lifetime access'}</p>
+						</div>
+
+						<ul className='space-y-4 mb-8'>
+							{features.premium.map((feature, index) => (
+								<li key={index} className='flex items-center space-x-3'>
+									<Check size={20} className='text-green-500 flex-shrink-0' />
+									<span className='text-gray-700'>{feature}</span>
+								</li>
+							))}
+							<li className='flex items-center space-x-3'>
+								<Check size={20} className='text-green-500 flex-shrink-0' />
+								<span className='text-gray-700 font-semibold'>{currentLanguage === 'az' ? 'Ömürlük yenilənmələr' : 'Lifetime updates'}</span>
+							</li>
+						</ul>
+
+						<button
+							onClick={() => handleSubscribe('lifetime')}
+							disabled={subscription.isPremium}
+							className={`w-full py-3 px-6 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
+								subscription.isPremium
+									? 'bg-green-500 text-white cursor-not-allowed'
+									: 'bg-gradient-to-r from-purple-400 to-indigo-500 text-white hover:from-purple-500 hover:to-indigo-600 shadow-lg hover:shadow-xl'
+							}`}
+						>
+							{subscription.isPremium ? (
+								<>
+									<Check size={20} />
+									<span>{currentLanguage === 'az' ? 'Aktiv' : 'Active'}</span>
+								</>
+							) : (
+								<>
+									<Crown size={20} />
+									<span>{currentLanguage === 'az' ? 'Ömürlük Al' : 'Get Lifetime'}</span>
 								</>
 							)}
 						</button>

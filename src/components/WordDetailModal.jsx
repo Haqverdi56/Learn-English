@@ -1,18 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { X, Volume2, Check, Minus } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { useVocabulary } from '../contexts/VocabularyContext';
+import { addToLearned, addToUnknown } from '../store/slices/vocabularySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTranslations } from '../store/slices/languageSlice';
 
 const WordDetailModal = ({ word, onClose }) => {
-	const { currentLanguage, translations } = useLanguage();
-	const { addToLearned, addToUnknown, isLearned, isUnknown } = useVocabulary();
-	const t = translations[currentLanguage];
+	const dispatch = useDispatch();
+	const learnedWords = useSelector((state) => state.vocabulary.learnedWords);
+	const unknownWords = useSelector((state) => state.vocabulary.unknownWords);
+
+	const t = useSelector(selectTranslations);
 
 	const playAudio = (audioUrl) => {
 		const audio = new Audio(audioUrl);
 		audio.play().catch((error) => console.log('Audio play failed:', error));
 	};
+
+	const learned = learnedWords.includes(word.id);
+	const unknown = unknownWords.includes(word.id);
 
 	const getLevelColor = (level) => {
 		switch (level) {
@@ -129,20 +135,18 @@ const WordDetailModal = ({ word, onClose }) => {
 				{/* Footer */}
 				<div className='flex space-x-3 p-6 bg-gray-50 rounded-b-2xl'>
 					<button
-						onClick={() => addToLearned(word.id)}
+						onClick={() => dispatch(addToLearned(word.id))}
 						className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-medium transition-colors ${
-							isLearned(word.id)
-								? 'bg-green-100 text-green-700 border border-green-200'
-								: 'bg-white text-green-600 border border-green-200 hover:bg-green-50'
+							learned ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-white text-green-600 border border-green-200 hover:bg-green-50'
 						}`}
 					>
 						<Check size={16} />
 						<span>{t.learned}</span>
 					</button>
 					<button
-						onClick={() => addToUnknown(word.id)}
+						onClick={() => dispatch(addToUnknown(word.id))}
 						className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-medium transition-colors ${
-							isUnknown(word.id) ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-white text-red-600 border border-red-200 hover:bg-red-50'
+							unknown ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-white text-red-600 border border-red-200 hover:bg-red-50'
 						}`}
 					>
 						<Minus size={16} />

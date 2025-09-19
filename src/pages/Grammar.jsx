@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, ChevronRight, Play } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { grammarData, getGrammarByLevel, getAllGrammarLevels, getAllGrammarCategories } from '../data/grammar';
+import { useSelector } from 'react-redux';
+import { selectCurrentLanguage } from '../store/slices/languageSlice';
 
 const Grammar = () => {
 	const [selectedLevel, setSelectedLevel] = useState('A1');
 	const [selectedTopic, setSelectedTopic] = useState(null);
-	const { currentLanguage } = useLanguage();
+
+	const currentLanguage = useSelector(selectCurrentLanguage);
 
 	const levels = getAllGrammarLevels();
 	const categories = getAllGrammarCategories();
