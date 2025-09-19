@@ -138,14 +138,14 @@ const Subscription = () => {
 
 						<button
 							onClick={() => handleSubscribe('monthly')}
-							disabled={subscription.isPremium}
+							disabled={subscription.isPremium && subscription.type === 'monthly'}
 							className={`w-full py-3 px-6 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
-								subscription.isPremium
+								subscription.isPremium && subscription.type === 'monthly'
 									? 'bg-green-500 text-white cursor-not-allowed'
 									: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl'
 							}`}
 						>
-							{subscription.isPremium ? (
+							{subscription.isPremium && subscription.type === 'monthly' ? (
 								<>
 									<Check size={20} />
 									<span>{currentLanguage === 'az' ? 'Aktiv' : 'Active'}</span>
@@ -200,14 +200,14 @@ const Subscription = () => {
 
 						<button
 							onClick={() => handleSubscribe('lifetime')}
-							disabled={subscription.isPremium}
+							disabled={subscription.isLifetime}
 							className={`w-full py-3 px-6 rounded-xl font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
-								subscription.isPremium
+								subscription.isLifetime
 									? 'bg-green-500 text-white cursor-not-allowed'
 									: 'bg-gradient-to-r from-purple-400 to-indigo-500 text-white hover:from-purple-500 hover:to-indigo-600 shadow-lg hover:shadow-xl'
 							}`}
 						>
-							{subscription.isPremium ? (
+							{subscription.isLifetime ? (
 								<>
 									<Check size={20} />
 									<span>{currentLanguage === 'az' ? 'Aktiv' : 'Active'}</span>

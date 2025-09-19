@@ -3,10 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	subscription: JSON.parse(localStorage.getItem('subscription')) || {
 		isPremium: false,
+		isLifetime: false,
 		type: null, // 'monthly' | 'lifetime'
 		expiresAt: null,
 	},
-	restrictedPages: ['/dictionary', '/extra-features', '/grammar', '/skills'],
+	premiumLevels: ['B1', 'B2', 'C1', 'C2'],
 	loadMoreCounts: JSON.parse(localStorage.getItem('loadMoreCounts')) || {},
 };
 
@@ -16,19 +17,20 @@ const subscriptionSlice = createSlice({
 	reducers: {
 		subscribe: (state, action) => {
 			const { type } = action.payload;
-			const now = new Date();
 
 			if (type === 'monthly') {
 				const expiresAt = new Date();
 				expiresAt.setMonth(expiresAt.getMonth() + 1);
 				state.subscription = {
 					isPremium: true,
+					isLifetime: false,
 					type: 'monthly',
 					expiresAt: expiresAt.toISOString(),
 				};
 			} else if (type === 'lifetime') {
 				state.subscription = {
 					isPremium: true,
+					isLifetime: true,
 					type: 'lifetime',
 					expiresAt: null,
 				};
@@ -52,16 +54,28 @@ const subscriptionSlice = createSlice({
 export const { subscribe, incrementLoadMoreCount, resetLoadMoreCount } = subscriptionSlice.actions;
 
 // Selectors
-export const selectIsPageRestricted = (state, path) => {
-	return state.subscription.restrictedPages.includes(path);
+export const selectIsLevelPremium = (state, level) => {
+	return state.subscription.premiumLevels.includes(level);
 };
 
-export const selectCanAccessPage = (state, path) => {
-	if (!state.subscription.restrictedPages.includes(path)) return true;
+export const selectCanAccessLevel = (state, level) => {
+	if (!state.subscription.premiumLevels.includes(level)) return true;
 	if (!state.subscription.subscription.isPremium) return false;
 
 	if (state.subscription.subscription.type === 'lifetime') return true;
 
+	if (!state.subscription.subscription.expiresAt) return false;
+	const now = new Date();
+	const expires = new Date(state.subscription.subscription.expiresAt);
+	return now < expires;
+};
+
+export const selectHasPremiumAccess = (state) => {
+	if (!state.subscription.subscription.isPremium) return false;
+	
+	if (state.subscription.subscription.type === 'lifetime') return true;
+	
+	if (!state.subscription.subscription.expiresAt) return false;
 	const now = new Date();
 	const expires = new Date(state.subscription.subscription.expiresAt);
 	return now < expires;
@@ -72,9 +86,5 @@ export const selectCanLoadMore = (state, page) => {
 	return (state.subscription.loadMoreCounts[page] || 0) < 3;
 };
 
-export const selectCanAccessLevel = (state, level) => {
-	if (state.subscription.subscription.isPremium) return true;
-	return ['A1', 'A2'].includes(level);
-};
 
 export default subscriptionSlice.reducer;

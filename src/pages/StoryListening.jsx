@@ -6,6 +6,8 @@ import { Clock, Play } from 'lucide-react';
 import { storiesData } from '../data/stories';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import { useSelector } from 'react-redux';
+import { selectCanAccessLevel } from '../store/slices/subscriptionSlice';
+import { Crown } from 'lucide-react';
 
 const StoryListening = () => {
 	const [selectedLevels, setSelectedLevels] = useState([]);
@@ -57,15 +59,26 @@ const StoryListening = () => {
 							<button
 								key={level}
 								onClick={() => {
+									const canAccess = useSelector((state) => selectCanAccessLevel(state, level));
+									if (!canAccess) {
+										alert(currentLanguage === 'az' ? 'Bu səviyyə üçün Premium abunəlik lazımdır' : 'Premium subscription required for this level');
+										return;
+									}
 									setSelectedLevels((prev) => (prev.includes(level) ? prev.filter((l) => l !== level) : [...prev, level]));
 								}}
-								className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
+								className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 relative ${
 									selectedLevels.includes(level)
 										? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
-										: 'bg-white/60 text-gray-600 hover:bg-white/80 border border-white/20'
+										: useSelector((state) => selectCanAccessLevel(state, level))
+										? 'bg-white/60 text-gray-600 hover:bg-white/80 border border-white/20'
+										: 'bg-gray-200 text-gray-400 cursor-not-allowed'
 								}`}
+								disabled={!useSelector((state) => selectCanAccessLevel(state, level))}
 							>
 								{level}
+								{!useSelector((state) => selectCanAccessLevel(state, level)) && (
+									<Crown size={12} className='absolute -top-1 -right-1 text-yellow-500' />
+								)}
 							</button>
 						))}
 						{selectedLevels.length > 0 && (

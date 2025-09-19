@@ -4,6 +4,8 @@ import { Headphones, BookOpen, PenTool, Mic, Play, Check, X } from 'lucide-react
 import { getSkillsByType, getSkillsByLevel, getAllSkillLevels } from '../data/skills';
 import { selectCurrentLanguage } from '../store/slices/languageSlice';
 import { useSelector } from 'react-redux';
+import { selectCanAccessLevel } from '../store/slices/subscriptionSlice';
+import { Crown } from 'lucide-react';
 
 const Skills = () => {
 	const [selectedSkill, setSelectedSkill] = useState('listening');
@@ -247,17 +249,28 @@ const Skills = () => {
 						<button
 							key={level}
 							onClick={() => {
+								const canAccess = useSelector((state) => selectCanAccessLevel(state, level));
+								if (!canAccess) {
+									alert(currentLanguage === 'az' ? 'Bu səviyyə üçün Premium abunəlik lazımdır' : 'Premium subscription required for this level');
+									return;
+								}
 								setSelectedLevel(level);
 								setSelectedTopic(null);
 								resetTask();
 							}}
-							className={`px-4 py-2 rounded-full font-medium transition-all duration-200 border ${
+							className={`px-4 py-2 rounded-full font-medium transition-all duration-200 border relative ${
 								selectedLevel === level
 									? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg border-transparent'
-									: getLevelColor(level) + ' hover:shadow-md'
+									: useSelector((state) => selectCanAccessLevel(state, level))
+									? getLevelColor(level) + ' hover:shadow-md'
+									: 'bg-gray-200 text-gray-400 cursor-not-allowed border-gray-300'
 							}`}
+							disabled={!useSelector((state) => selectCanAccessLevel(state, level))}
 						>
 							{level}
+							{!useSelector((state) => selectCanAccessLevel(state, level)) && (
+								<Crown size={12} className='absolute -top-1 -right-1 text-yellow-500' />
+							)}
 						</button>
 					))}
 				</div>

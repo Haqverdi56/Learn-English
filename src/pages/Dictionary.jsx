@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getAllDictionaryWords } from '../data/dictionary';
 import WordDetailModal from '../components/WordDetailModal';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
-import { selectCanAccessPage } from '../store/slices/subscriptionSlice';
+import { selectHasPremiumAccess } from '../store/slices/subscriptionSlice';
 
 const Dictionary = () => {
 	const [words, setWords] = useState([]);
@@ -15,7 +15,7 @@ const Dictionary = () => {
 	const [selectedWord, setSelectedWord] = useState(null);
 	const [loading, setLoading] = useState(true);
 
-	const canAccessPage = useSelector((state) => selectCanAccessPage(state, '/dictionary'));
+	const hasPremiumAccess = useSelector(selectHasPremiumAccess);
 
 	const currentLanguage = useSelector(selectCurrentLanguage);
 	const t = useSelector(selectTranslations);
@@ -24,7 +24,7 @@ const Dictionary = () => {
 	const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 	useEffect(() => {
-		if (!canAccessPage) {
+		if (!hasPremiumAccess) {
 			return;
 		}
 
@@ -33,9 +33,9 @@ const Dictionary = () => {
 			setWords(getAllDictionaryWords());
 			setLoading(false);
 		}, 1000);
-	}, [canAccessPage]);
+	}, [hasPremiumAccess]);
 
-	if (!canAccessPage) {
+	if (!hasPremiumAccess) {
 		return (
 			<div className='min-h-screen flex items-center justify-center'>
 				<div className='text-center'>

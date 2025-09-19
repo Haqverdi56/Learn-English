@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { BookOpen, Headphones, Home, User, LogOut, Book, Zap, Users, Crown, Menu, X, GraduationCap, Target, Calendar } from 'lucide-react';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import { logout } from '../store/slices/authSlice';
-import { selectIsPageRestricted, selectCanAccessPage } from '../store/slices/subscriptionSlice';
+import { selectHasPremiumAccess } from '../store/slices/subscriptionSlice';
 import AuthModal from './AuthModal';
 import { store } from '../store';
 
@@ -39,22 +39,9 @@ const Navigation = () => {
 		[t, currentLanguage]
 	);
 
-	// 🔹 Restrictions & access (tek sefer hesaplanır, yeni obje oluşmaz)
-	const restrictions = useMemo(() => {
-		const state = store.getState(); // global redux state’e erişim
-		return Object.fromEntries(navItems.map(({ path }) => [path, selectIsPageRestricted(state, path)]));
-	}, [navItems]);
+	const hasPremiumAccess = useSelector(selectHasPremiumAccess);
 
-	const access = useMemo(() => {
-		const state = store.getState();
-		return Object.fromEntries(navItems.map(({ path }) => [path, selectCanAccessPage(state, path)]));
-	}, [navItems]);
-
-	const handleNavClick = (path, e) => {
-		if (restrictions[path] && !access[path]) {
-			e.preventDefault();
-			window.location.href = '/subscription';
-		}
+	const handleNavClick = (path) => {
 		setIsMobileMenuOpen(false);
 	};
 
@@ -76,7 +63,7 @@ const Navigation = () => {
 								<Link
 									key={path}
 									to={path}
-									onClick={(e) => handleNavClick(path, e)}
+									onClick={() => handleNavClick(path)}
 									className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium relative ${
 										location.pathname === path
 											? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md'
@@ -85,7 +72,6 @@ const Navigation = () => {
 								>
 									<Icon size={16} />
 									<span>{label}</span>
-									{restrictions[path] && <Crown size={12} className='text-yellow-500' />}
 								</Link>
 							))}
 						</div>
@@ -158,7 +144,7 @@ const Navigation = () => {
 								<Link
 									key={path}
 									to={path}
-									onClick={(e) => handleNavClick(path, e)}
+									onClick={() => handleNavClick(path)}
 									className={`flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200 ${
 										location.pathname === path
 											? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md'
@@ -167,7 +153,6 @@ const Navigation = () => {
 								>
 									<Icon size={20} />
 									<span className='font-medium'>{label}</span>
-									{restrictions[path] && <Crown size={14} className='text-yellow-500 ml-auto' />}
 								</Link>
 							))}
 

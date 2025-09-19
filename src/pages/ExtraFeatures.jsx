@@ -3,16 +3,16 @@ import { motion } from 'framer-motion';
 import { ArrowRight, BookOpen, Shuffle, Heart, Zap } from 'lucide-react';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import { useSelector } from 'react-redux';
-import { selectCanAccessPage } from '../store/slices/subscriptionSlice';
+import { selectHasPremiumAccess } from '../store/slices/subscriptionSlice';
 
 const ExtraFeatures = () => {
 	const [selectedFeature, setSelectedFeature] = useState('phrasal-verbs');
 	const currentLanguage = useSelector(selectCurrentLanguage);
 	const t = useSelector(selectTranslations);
 
-	const canAccess = useSelector((state) => selectCanAccessPage(state, '/extra-features'));
+	const hasPremiumAccess = useSelector(selectHasPremiumAccess);
 
-	if (!canAccess) {
+	if (!hasPremiumAccess) {
 		return (
 			<div className='min-h-screen flex items-center justify-center'>
 				<div className='text-center'>

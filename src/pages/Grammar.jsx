@@ -4,6 +4,8 @@ import { BookOpen, ChevronRight, Play } from 'lucide-react';
 import { grammarData, getGrammarByLevel, getAllGrammarLevels, getAllGrammarCategories } from '../data/grammar';
 import { useSelector } from 'react-redux';
 import { selectCurrentLanguage } from '../store/slices/languageSlice';
+import { selectCanAccessLevel } from '../store/slices/subscriptionSlice';
+import { Crown } from 'lucide-react';
 
 const Grammar = () => {
 	const [selectedLevel, setSelectedLevel] = useState('A1');
@@ -70,16 +72,27 @@ const Grammar = () => {
 						<button
 							key={level}
 							onClick={() => {
+								const canAccess = useSelector((state) => selectCanAccessLevel(state, level));
+								if (!canAccess) {
+									alert(currentLanguage === 'az' ? 'Bu səviyyə üçün Premium abunəlik lazımdır' : 'Premium subscription required for this level');
+									return;
+								}
 								setSelectedLevel(level);
 								setSelectedTopic(null);
 							}}
-							className={`px-4 py-2 rounded-full font-medium transition-all duration-200 border ${
+							className={`px-4 py-2 rounded-full font-medium transition-all duration-200 border relative ${
 								selectedLevel === level
 									? 'bg-gradient-to-r from-green-500 to-blue-500 text-white shadow-lg border-transparent'
-									: getLevelColor(level) + ' hover:shadow-md'
+									: useSelector((state) => selectCanAccessLevel(state, level))
+									? getLevelColor(level) + ' hover:shadow-md'
+									: 'bg-gray-200 text-gray-400 cursor-not-allowed border-gray-300'
 							}`}
+							disabled={!useSelector((state) => selectCanAccessLevel(state, level))}
 						>
 							{level}
+							{!useSelector((state) => selectCanAccessLevel(state, level)) && (
+								<Crown size={12} className='absolute -top-1 -right-1 text-yellow-500' />
+							)}
 						</button>
 					))}
 				</div>
