@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { BookOpen, Headphones, Home, User, LogOut, Book, Zap, Users, Crown, Menu, X, GraduationCap, Target, Calendar } from 'lucide-react';
+import { BookOpen, Headphones, Home, User, LogOut, Book, Zap, Users, Crown, Menu, X, GraduationCap, Target, Calendar, Trophy } from 'lucide-react';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import { logout } from '../store/slices/authSlice';
 import { selectHasPremiumAccess } from '../store/slices/subscriptionSlice';
@@ -35,6 +35,7 @@ const Navigation = () => {
 			{ path: '/skills', label: currentLanguage === 'az' ? 'Bacarıqlar' : 'Skills', icon: Target },
 			{ path: '/extra-features', label: t.extraFeatures, icon: Zap },
 			{ path: '/teachers', label: t.teachers, icon: Users },
+			{ path: '/leaderboard', label: currentLanguage === 'az' ? 'Liderlik' : 'Leaderboard', icon: Trophy },
 		],
 		[t, currentLanguage]
 	);

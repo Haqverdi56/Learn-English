@@ -38,6 +38,7 @@ const translations = {
 		conjunction: 'Conjunction',
 		pronoun: 'Pronoun',
 		interjection: 'Interjection',
+		leaderboard: 'Leaderboard',
 	},
 	az: {
 		home: 'Ana Səhifə',
@@ -76,6 +77,7 @@ const translations = {
 		conjunction: 'Bağlayıcı',
 		pronoun: 'Əvəzlik',
 		interjection: 'Nida',
+		leaderboard: 'Liderlik',
 	},
 };
 

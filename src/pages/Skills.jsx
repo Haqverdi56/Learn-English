@@ -4,7 +4,7 @@ import { Headphones, BookOpen, PenTool, Mic, Play, Check, X } from 'lucide-react
 import { getSkillsByType, getSkillsByLevel, getAllSkillLevels } from '../data/skills';
 import { selectCurrentLanguage } from '../store/slices/languageSlice';
 import { useSelector } from 'react-redux';
-import { selectCanAccessLevel } from '../store/slices/subscriptionSlice';
+import { selectHasPremiumAccess } from '../store/slices/subscriptionSlice';
 import { Crown } from 'lucide-react';
 
 const Skills = () => {
@@ -17,6 +17,7 @@ const Skills = () => {
 
 	const levels = getAllSkillLevels();
 	const currentLanguage = useSelector(selectCurrentLanguage);
+	const hasPremiumAccess = useSelector(selectHasPremiumAccess);
 
 	const skills = [
 		{ id: 'listening', label: currentLanguage === 'az' ? 'Dinləmə' : 'Listening', icon: Headphones, color: 'from-blue-500 to-cyan-500' },
@@ -249,8 +250,7 @@ const Skills = () => {
 						<button
 							key={level}
 							onClick={() => {
-								const canAccess = useSelector((state) => selectCanAccessLevel(state, level));
-								if (!canAccess) {
+								if (['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess) {
 									alert(currentLanguage === 'az' ? 'Bu səviyyə üçün Premium abunəlik lazımdır' : 'Premium subscription required for this level');
 									return;
 								}
@@ -261,14 +261,14 @@ const Skills = () => {
 							className={`px-4 py-2 rounded-full font-medium transition-all duration-200 border relative ${
 								selectedLevel === level
 									? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg border-transparent'
-									: useSelector((state) => selectCanAccessLevel(state, level))
+									: !['B1', 'B2', 'C1', 'C2'].includes(level) || hasPremiumAccess
 									? getLevelColor(level) + ' hover:shadow-md'
 									: 'bg-gray-200 text-gray-400 cursor-not-allowed border-gray-300'
 							}`}
-							disabled={!useSelector((state) => selectCanAccessLevel(state, level))}
+							disabled={['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess}
 						>
 							{level}
-							{!useSelector((state) => selectCanAccessLevel(state, level)) && (
+							{['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess && (
 								<Crown size={12} className='absolute -top-1 -right-1 text-yellow-500' />
 							)}
 						</button>

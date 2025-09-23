@@ -13,6 +13,7 @@ import Subscription from './pages/Subscription';
 import DailyWords from './pages/DailyWords';
 import Skills from './pages/Skills';
 import Grammar from './pages/Grammar';
+import Leaderboard from './pages/Leaderboard';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import Profile from './pages/Profile';
@@ -38,6 +39,7 @@ function App() {
 						<Route path='/subscription' element={<Subscription />} />
 						<Route path='/daily-words' element={<DailyWords />} />
 						<Route path='/profile' element={<Profile />} />
+						<Route path='/leaderboard' element={<Leaderboard />} />
 					</Routes>
 					<Footer />
 				</div>

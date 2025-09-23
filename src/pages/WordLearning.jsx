@@ -129,23 +129,19 @@ const WordLearning = () => {
 							<button
 								key={level}
 								onClick={() => {
-									const canAccess = useSelector((state) => selectCanAccessLevel(state, level));
-									if (!canAccess) {
-										alert(currentLanguage === 'az' ? 'Bu səviyyə üçün Premium abunəlik lazımdır' : 'Premium subscription required for this level');
-										return;
-									}
 									setSelectedLevels((prev) => (prev.includes(level) ? prev.filter((l) => l !== level) : [...prev, level]));
 								}}
 								className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 relative ${
 									selectedLevels.includes(level)
 										? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
-										: useSelector((state) => selectCanAccessLevel(state, level))
+										: !['B1', 'B2', 'C1', 'C2'].includes(level) || hasPremiumAccess
 										? 'bg-white/60 text-gray-600 hover:bg-white/80 border border-white/20'
 										: 'bg-gray-200 text-gray-400 cursor-not-allowed'
 								}`}
+								disabled={['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess}
 							>
 								{level}
-								{!useSelector((state) => selectCanAccessLevel(state, level)) && (
+								{['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess && (
 									<Crown size={12} className='absolute -top-1 -right-1 text-yellow-500' />
 								)}
 							</button>

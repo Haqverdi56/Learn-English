@@ -6,7 +6,7 @@ import { Clock, Play } from 'lucide-react';
 import { storiesData } from '../data/stories';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import { useSelector } from 'react-redux';
-import { selectCanAccessLevel } from '../store/slices/subscriptionSlice';
+import { selectHasPremiumAccess } from '../store/slices/subscriptionSlice';
 import { Crown } from 'lucide-react';
 
 const StoryListening = () => {
@@ -14,6 +14,7 @@ const StoryListening = () => {
 
 	const currentLanguage = useSelector(selectCurrentLanguage);
 	const t = useSelector(selectTranslations);
+	const hasPremiumAccess = useSelector(selectHasPremiumAccess);
 
 	const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
@@ -59,8 +60,7 @@ const StoryListening = () => {
 							<button
 								key={level}
 								onClick={() => {
-									const canAccess = useSelector((state) => selectCanAccessLevel(state, level));
-									if (!canAccess) {
+									if (['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess) {
 										alert(currentLanguage === 'az' ? 'Bu səviyyə üçün Premium abunəlik lazımdır' : 'Premium subscription required for this level');
 										return;
 									}
@@ -69,14 +69,14 @@ const StoryListening = () => {
 								className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 relative ${
 									selectedLevels.includes(level)
 										? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
-										: useSelector((state) => selectCanAccessLevel(state, level))
+										: !['B1', 'B2', 'C1', 'C2'].includes(level) || hasPremiumAccess
 										? 'bg-white/60 text-gray-600 hover:bg-white/80 border border-white/20'
 										: 'bg-gray-200 text-gray-400 cursor-not-allowed'
 								}`}
-								disabled={!useSelector((state) => selectCanAccessLevel(state, level))}
+								disabled={['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess}
 							>
 								{level}
-								{!useSelector((state) => selectCanAccessLevel(state, level)) && (
+								{['B1', 'B2', 'C1', 'C2'].includes(level) && !hasPremiumAccess && (
 									<Crown size={12} className='absolute -top-1 -right-1 text-yellow-500' />
 								)}
 							</button>
