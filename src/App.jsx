@@ -14,6 +14,7 @@ import DailyWords from './pages/DailyWords';
 import Skills from './pages/Skills';
 import Grammar from './pages/Grammar';
 import Leaderboard from './pages/Leaderboard';
+import LevelTest from './pages/LevelTest';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import Profile from './pages/Profile';
@@ -40,6 +41,7 @@ function App() {
 						<Route path='/daily-words' element={<DailyWords />} />
 						<Route path='/profile' element={<Profile />} />
 						<Route path='/leaderboard' element={<Leaderboard />} />
+						<Route path='/level-test' element={<LevelTest />} />
 					</Routes>
 					<Footer />
 				</div>

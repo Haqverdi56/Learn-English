@@ -36,6 +36,7 @@ const Navigation = () => {
 			{ path: '/extra-features', label: t.extraFeatures, icon: Zap },
 			{ path: '/teachers', label: t.teachers, icon: Users },
 			{ path: '/leaderboard', label: currentLanguage === 'az' ? 'Liderlik' : 'Leaderboard', icon: Trophy },
+			{ path: '/level-test', label: currentLanguage === 'az' ? 'Səviyyə Testi' : 'Level Test', icon: Target },
 		],
 		[t, currentLanguage]
 	);
@@ -158,14 +159,16 @@ const Navigation = () => {
 							))}
 
 							{/* Mobile Subscription */}
-							<Link
-								to='/subscription'
-								onClick={() => setIsMobileMenuOpen(false)}
-								className='flex items-center space-x-3 px-3 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg font-medium shadow-md'
-							>
-								<Crown size={20} />
-								<span>{t.subscription}</span>
-							</Link>
+							{!hasPremiumAccess && (
+								<Link
+									to='/subscription'
+									onClick={() => setIsMobileMenuOpen(false)}
+									className='flex items-center space-x-3 px-3 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-lg font-medium shadow-md'
+								>
+									<Crown size={20} />
+									<span>{t.subscription}</span>
+								</Link>
+							)}
 
 							{/* Mobile Auth */}
 							{isAuthenticated ? (
