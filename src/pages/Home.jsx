@@ -74,33 +74,27 @@ const Home = () => {
 	return (
 		<div className='min-h-screen'>
 			{/* Hero Section */}
-			<section className='relative pt-20 pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden'>
-				{/* Background Image */}
-				<div className='absolute inset-0 z-0'>
-					<img 
-						src='https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2'
-						alt='London Big Ben'
-						className='w-full h-full object-cover opacity-20'
-					/>
-					<div className='absolute inset-0 bg-gradient-to-br from-blue-50/80 via-indigo-50/80 to-purple-50/80'></div>
-				</div>
-				
+			<section className='relative pt-20 pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden main-section'>
 				<div className='max-w-7xl mx-auto text-center'>
 					<h1 className='text-5xl md:text-7xl font-bold mb-8'>
 						<span className='bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent'>İngilis Dilini</span>
 						<br />
 						<span className={theme === 'dark' ? 'text-white' : 'text-gray-800'}>Öyrənin</span>
 					</h1>
-					<p className={`text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+					<p
+						className={`text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed text-shadow-lg ${
+							theme === 'dark' ? 'text-gray-300' : 'text-black-600'
+						}`}
+					>
 						İnteraktiv kartlar, maraqlı hekayələr və təcrübəli müəllimlərlə İngilis dilini asanlıqla öyrənin. Hər səviyyə üçün uyğun materiallar.
 					</p>
 
 					{/* Stats */}
-					<div className='flex flex-wrap justify-center gap-8 md:gap-16 mb-16'>
+					<div className='flex flex-wrap justify-center gap-8 md:gap-16 mb-16 bg-white/30 backdrop-blur-2xs rounded-3xl p-8 shadow-2xl'>
 						{stats.map((stat, index) => (
 							<div key={index} className='text-center'>
-								<div className='text-3xl md:text-4xl font-bold text-blue-600 mb-2'>{stat.number}</div>
-								<div className={`font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{stat.label}</div>
+								<div className='text-3xl md:text-4xl font-bold text-blue-600 mb-2 '>{stat.number}</div>
+								<div className={`font-medium text-shadow-lg ${theme === 'dark' ? 'text-gray-300' : 'text-black-400'}`}>{stat.label}</div>
 							</div>
 						))}
 					</div>

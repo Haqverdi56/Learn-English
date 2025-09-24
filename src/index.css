@@ -14,3 +14,12 @@
 	transform: rotateY(180deg);
 }
 /* */
+
+.main-section {
+	background-image: url('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: rgba(196, 196, 196, 0.3); /* resmin üzerine yarı saydam beyaz */
+	background-blend-mode: lighten;
+}

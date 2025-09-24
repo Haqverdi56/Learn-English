@@ -26,7 +26,7 @@ const Navigation = () => {
 	// 🔹 Nav items (sabit liste, render’da değişmez)
 	const navItems = useMemo(
 		() => [
-			{ path: '/', label: t.home, icon: Home },
+			// { path: '/', label: t.home, icon: Home },
 			{ path: '/daily-words', label: currentLanguage === 'az' ? 'Hər Gün 10' : 'Daily 10', icon: Calendar },
 			{ path: '/word-learning', label: t.wordLearning, icon: BookOpen },
 			{ path: '/story-listening', label: t.storyListening, icon: Headphones },
@@ -51,7 +51,7 @@ const Navigation = () => {
 
 	return (
 		<>
-			<nav className='bg-white/90 backdrop-blur-md border-b border-white/20 sticky top-0 z-40 shadow-sm'>
+			<nav className='bg-white/30 backdrop-blur-md border-b border-white/20 sticky top-0 z-40 shadow-sm'>
 				<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
 					<div className='flex justify-between items-center h-16'>
 						{/* Logo */}

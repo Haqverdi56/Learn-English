@@ -37,6 +37,9 @@ const DailyWords = () => {
 			return newSet;
 		});
 	};
+	const handleOutsideClick = () => {
+		setFlippedCards(new Set());
+	};
 
 	const playAudio = (audioUrl, event) => {
 		event.stopPropagation();
