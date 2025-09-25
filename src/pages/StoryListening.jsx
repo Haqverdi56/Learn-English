@@ -1,8 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Clock, Play } from 'lucide-react';
+import { Clock, Play, Headphones, Mic } from 'lucide-react';
 import { storiesData } from '../data/stories';
 import { selectCurrentLanguage, selectTranslations } from '../store/slices/languageSlice';
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { Crown } from 'lucide-react';
 
 const StoryListening = () => {
 	const [selectedLevels, setSelectedLevels] = useState([]);
+	const [contentType, setContentType] = useState('stories'); // 'stories' or 'podcasts'
 
 	const currentLanguage = useSelector(selectCurrentLanguage);
 	const t = useSelector(selectTranslations);
@@ -18,7 +19,57 @@ const StoryListening = () => {
 
 	const allLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-	const filteredStories = selectedLevels.length === 0 ? storiesData : storiesData.filter((story) => selectedLevels.includes(story.level));
+	// Mock podcast data
+	const podcastsData = [
+		{
+			id: 'podcast-1',
+			title: 'English Learning Tips',
+			duration: 15,
+			level: 'B1',
+			image: 'https://images.pexels.com/photos/7130560/pexels-photo-7130560.jpeg?auto=compress&cs=tinysrgb&w=400',
+			audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+			description: 'Learn effective strategies for improving your English skills.',
+		},
+		{
+			id: 'podcast-2',
+			title: 'Daily Conversations',
+			duration: 12,
+			level: 'A2',
+			image: 'https://images.pexels.com/photos/6686445/pexels-photo-6686445.jpeg?auto=compress&cs=tinysrgb&w=400',
+			audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+			description: 'Practice common English conversations for everyday situations.',
+		},
+		{
+			id: 'podcast-3',
+			title: 'Business English',
+			duration: 20,
+			level: 'B2',
+			image: 'https://images.pexels.com/photos/7130469/pexels-photo-7130469.jpeg?auto=compress&cs=tinysrgb&w=400',
+			audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+			description: 'Professional English for workplace communication.',
+		},
+		{
+			id: 'podcast-4',
+			title: 'Grammar Made Easy',
+			duration: 18,
+			level: 'B1',
+			image: 'https://images.pexels.com/photos/6686442/pexels-photo-6686442.jpeg?auto=compress&cs=tinysrgb&w=400',
+			audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+			description: 'Simplify complex grammar rules with practical examples.',
+		},
+		{
+			id: 'podcast-5',
+			title: 'Pronunciation Practice',
+			duration: 10,
+			level: 'A2',
+			image: 'https://images.pexels.com/photos/7130498/pexels-photo-7130498.jpeg?auto=compress&cs=tinysrgb&w=400',
+			audioUrl: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+			description: 'Improve your English pronunciation with guided exercises.',
+		},
+	];
+
+	const currentData = contentType === 'stories' ? storiesData : podcastsData;
+	const filteredContent = selectedLevels.length === 0 ? currentData : currentData.filter((item) => selectedLevels.includes(item.level));
 
 	const getLevelColor = (level) => {
 		switch (level) {
@@ -45,14 +96,39 @@ const StoryListening = () => {
 				{/* Header */}
 				<div className='text-center mb-12'>
 					<h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4'>
-						{t.storyListening}
+						{currentLanguage === 'az' ? 'Dinləmə Mərkəzi' : 'Listening Hub'}
 					</h1>
 					<p className='text-xl text-gray-600 max-w-3xl mx-auto'>
 						{currentLanguage === 'az'
-							? 'Maraqlı hekayələrlə dinləmə qabiliyyətinizi inkişaf etdirin və lüğət ehtiyatınızı artırın.'
-							: 'Improve your listening skills and expand your vocabulary with engaging stories.'}
+							? 'Maraqlı hekayələr və podcastlarla dinləmə qabiliyyətinizi inkişaf etdirin.'
+							: 'Improve your listening skills with engaging stories and podcasts.'}
 					</p>
 
+					{/* Content Type Toggle */}
+					<div className='flex items-center justify-center space-x-4 mt-8 mb-8'>
+						<button
+							onClick={() => setContentType('stories')}
+							className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+								contentType === 'stories'
+									? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
+									: 'bg-white/60 text-gray-600 hover:bg-white/80 border border-white/20'
+							}`}
+						>
+							<Headphones size={20} />
+							<span>{currentLanguage === 'az' ? 'Hekayələr' : 'Stories'}</span>
+						</button>
+						<button
+							onClick={() => setContentType('podcasts')}
+							className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+								contentType === 'podcasts'
+									? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
+									: 'bg-white/60 text-gray-600 hover:bg-white/80 border border-white/20'
+							}`}
+						>
+							<Mic size={20} />
+							<span>{currentLanguage === 'az' ? 'Podcastlar' : 'Podcasts'}</span>
+						</button>
+					</div>
 					{/* Level Filter */}
 					<div className='flex flex-wrap items-center justify-center gap-2 mt-8'>
 						<span className='text-gray-600 font-medium mr-2'>{currentLanguage === 'az' ? 'Səviyyə:' : 'Level:'}</span>
@@ -92,11 +168,11 @@ const StoryListening = () => {
 					</div>
 				</div>
 
-				{/* Stories Grid */}
+				{/* Content Grid */}
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6'>
-					{filteredStories.map((story, index) => (
+					{filteredContent.map((item, index) => (
 						<motion.div
-							key={story.id}
+							key={item.id}
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ delay: index * 0.1 }}
@@ -105,12 +181,12 @@ const StoryListening = () => {
 							{/* Image */}
 							<div className='relative overflow-hidden'>
 								<img
-									src={story.image}
-									alt={story.title}
+									src={item.image}
+									alt={item.title}
 									className='w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105'
 								/>
 								<div className='absolute top-3 left-3'>
-									<span className={`px-2 py-1 text-xs font-medium rounded-full border ${getLevelColor(story.level)}`}>{story.level}</span>
+									<span className={`px-2 py-1 text-xs font-medium rounded-full border ${getLevelColor(item.level)}`}>{item.level}</span>
 								</div>
 								<div className='absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
 									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
@@ -123,21 +199,38 @@ const StoryListening = () => {
 
 							{/* Content */}
 							<div className='p-6'>
-								<h3 className='text-lg font-semibold text-gray-800 mb-3 line-clamp-2 group-hover:text-purple-600 transition-colors'>{story.title}</h3>
+								<h3 className='text-lg font-semibold text-gray-800 mb-3 line-clamp-2 group-hover:text-purple-600 transition-colors'>{item.title}</h3>
+
+								{contentType === 'podcasts' && item.description && (
+									<p className='text-sm text-gray-600 mb-3 line-clamp-2'>{item.description}</p>
+								)}
 
 								<div className='flex items-center text-gray-500 text-sm mb-4'>
 									<Clock size={14} className='mr-1' />
 									<span>
-										{story.duration} {t.minutes}
+										{item.duration} {t.minutes}
 									</span>
 								</div>
 
-								<Link
-									to={`/story/${story.id}`}
-									className='block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-3 rounded-xl font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-md hover:shadow-lg'
-								>
-									{t.watch}
-								</Link>
+								{contentType === 'stories' ? (
+									<Link
+										to={`/story/${item.id}`}
+										className='block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-3 rounded-xl font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-md hover:shadow-lg'
+									>
+										{t.watch}
+									</Link>
+								) : (
+									<button
+										onClick={() => {
+											// Podcast oynatma funksiyası
+											const audio = new Audio(item.audioUrl);
+											audio.play().catch(error => console.log('Audio play failed:', error));
+										}}
+										className='block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-3 rounded-xl font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-md hover:shadow-lg'
+									>
+										{currentLanguage === 'az' ? 'Dinlə' : 'Listen'}
+									</button>
+								)}
 							</div>
 						</motion.div>
 					))}
