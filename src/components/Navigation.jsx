@@ -109,7 +109,7 @@ const Navigation = () => {
 											className={`absolute top-full right-0 mt-1 w-48 rounded-lg shadow-lg border z-50 ${
 												theme === 'dark'
 													? 'bg-gray-800 border-gray-700'
-													: 'bg-white border-gray-200'
+							<div className={`lg:hidden backdrop-blur-md border-t fixed inset-x-0 top-16 bottom-0 overflow-y-auto z-50 ${
 											}`}
 											onMouseEnter={() => setShowMoreDropdown(true)}
 											onMouseLeave={() => setShowMoreDropdown(false)}
