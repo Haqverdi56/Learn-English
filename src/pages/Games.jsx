@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Gamepad2, Target, Shuffle, Volume2, CheckCircle, XCircle, RotateCcw } from 'lucide-react';
+import { Gamepad2, Target, Shuffle, Volume2, CircleCheck as CheckCircle, Circle as XCircle, RotateCcw } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { selectCurrentLanguage } from '../store/slices/languageSlice';
 
