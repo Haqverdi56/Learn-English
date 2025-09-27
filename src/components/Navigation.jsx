@@ -22,12 +22,13 @@ const Navigation = () => {
 	const hasPremiumAccess = useSelector(selectHasPremiumAccess);
 
 	const navItems = [
-		{ path: '/', label: currentLanguage === 'az' ? 'Ana Səhifə' : 'Home' },
 		{ path: '/word-learning', label: currentLanguage === 'az' ? 'Söz Öyrən' : 'Learn Words' },
 		{ path: '/story-listening', label: currentLanguage === 'az' ? 'Hekayə Dinlə' : 'Listen Stories' },
 		{ path: '/dictionary', label: currentLanguage === 'az' ? 'Lüğət' : 'Dictionary' },
 		{ path: '/grammar', label: currentLanguage === 'az' ? 'Qrammatika' : 'Grammar' },
 		{ path: '/skills', label: currentLanguage === 'az' ? 'Bacarıqlar' : 'Skills' },
+		{ path: '/games', label: currentLanguage === 'az' ? 'Oyunlarla Öyrən' : 'Learn with Games' },
+		{ path: '/compete', label: currentLanguage === 'az' ? 'Yarış' : 'Compete' },
 		{ path: '/extra-features', label: currentLanguage === 'az' ? 'Əlavə' : 'Extra' },
 		{ path: '/teachers', label: currentLanguage === 'az' ? 'Müəllimlər' : 'Teachers' },
 		{ path: '/daily-words', label: currentLanguage === 'az' ? 'Hər gün 10' : 'Daily 10' },
@@ -66,12 +67,12 @@ const Navigation = () => {
 						</Link>
 
 						{/* Desktop Navigation */}
-						<div className='hidden lg:flex items-center space-x-1 max-w-2xl overflow-x-auto'>
+						<div className='hidden lg:flex items-center space-x-1 flex-wrap justify-center max-w-4xl'>
 							{navItems.map((item) => (
 								<Link
 									key={item.path}
 									to={item.path}
-									className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+									className={`px-2 py-2 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap ${
 										location.pathname === item.path
 											? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
 											: theme === 'dark'

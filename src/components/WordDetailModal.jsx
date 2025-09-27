@@ -64,6 +64,21 @@ const WordDetailModal = ({ word, onClose }) => {
 
 				{/* Content */}
 				<div className='p-6 space-y-6'>
+					{/* Word Image */}
+					<div>
+						<h3 className='text-sm font-medium text-gray-500 mb-2'>Visual</h3>
+						<div className='w-full h-48 bg-gray-100 rounded-lg overflow-hidden'>
+							<img 
+								src={`https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop`}
+								alt={word.english}
+								className='w-full h-full object-cover'
+								onError={(e) => {
+									e.target.src = `https://via.placeholder.com/400x300/4F46E5/FFFFFF?text=${encodeURIComponent(word.english)}`;
+								}}
+							/>
+						</div>
+					</div>
+
 					{/* Translation */}
 					<div>
 						<h3 className='text-sm font-medium text-gray-500 mb-2'>Translation</h3>

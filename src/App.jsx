@@ -15,6 +15,8 @@ import Skills from './pages/Skills';
 import Grammar from './pages/Grammar';
 import Leaderboard from './pages/Leaderboard';
 import LevelTest from './pages/LevelTest';
+import Games from './pages/Games';
+import Compete from './pages/Compete';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import Profile from './pages/Profile';
@@ -35,6 +37,8 @@ function App() {
 						<Route path='/skills' element={<Skills />} />
 						<Route path='/grammar' element={<Grammar />} />
 						<Route path='/extra-features' element={<ExtraFeatures />} />
+						<Route path='/games' element={<Games />} />
+						<Route path='/compete' element={<Compete />} />
 						<Route path='/teachers' element={<Teachers />} />
 						<Route path='/teacher/:id' element={<TeacherProfile />} />
 						<Route path='/subscription' element={<Subscription />} />
