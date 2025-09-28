@@ -44,6 +44,13 @@ const ExtraFeatures = () => {
 			color: 'from-blue-500 to-cyan-500',
 		},
 		{
+			id: 'grammar-comparison',
+			title: currentLanguage === 'az' ? 'Qrammatika Müqayisəsi' : 'Grammar Comparison',
+			description: currentLanguage === 'az' ? 'Azərbaycan və İngilis dilinin qrammatika fərqləri' : 'Grammar differences between Azerbaijani and English',
+			icon: BookOpen,
+			color: 'from-indigo-500 to-purple-500',
+		},
+		{
 			id: 'synonyms',
 			title: currentLanguage === 'az' ? 'Sinonimlər' : 'Synonyms',
 			description: currentLanguage === 'az' ? 'Sözlərin sinonimləri ilə lüğət ehtiyatınızı artırın' : 'Expand vocabulary with word synonyms',

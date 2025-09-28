@@ -124,6 +124,9 @@ const Games = () => {
 			case 'translate':
 				correct = answer === question.en;
 				break;
+			case 'az-to-en':
+				correct = answer === question.correct;
+				break;
 			case 'find-error':
 				correct = answer.toLowerCase().includes(question.correction.toLowerCase());
 				break;
