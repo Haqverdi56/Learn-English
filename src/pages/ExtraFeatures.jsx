@@ -162,63 +162,6 @@ const ExtraFeatures = () => {
 		},
 	];
 
-	const grammarComparisons = [
-		{
-			topic: 'Cins (Gender)',
-			azerbaijani: 'Azərbaycan dilində cins yoxdur',
-			english: 'İngiliscədə he/she, actor/actress fərqi var',
-			example: {
-				az: 'O müəllimdir (kişi və ya qadın)',
-				en: 'He is a teacher / She is a teacher'
-			}
-		},
-		{
-			topic: 'Artikl (Articles)',
-			azerbaijani: 'Azərbaycan dilində artikl yoxdur',
-			english: 'İngiliscədə a/an/the artiklları var',
-			example: {
-				az: 'Kitab oxuyuram',
-				en: 'I am reading a book / the book'
-			}
-		},
-		{
-			topic: 'Sayılabilən/Sayılmayan İsimlər',
-			azerbaijani: 'Azərbaycan dilində "sudanlar" deyə bilərik',
-			english: 'İngiliscədə "waters" səhvdir, "water" sayılmazdır',
-			example: {
-				az: 'Çox sudanlar içdim',
-				en: 'I drank a lot of water (NOT waters)'
-			}
-		},
-		{
-			topic: 'Yaş İfadəsi',
-			azerbaijani: 'Mənim 20 yaşım var',
-			english: 'I am 20 years old (NOT I have 20 years)',
-			example: {
-				az: 'Mənim 25 yaşım var',
-				en: 'I am 25 years old'
-			}
-		},
-		{
-			topic: 'Sahib Olmaq',
-			azerbaijani: 'Mənim qardaşım var',
-			english: 'I have a brother (artikl lazımdır)',
-			example: {
-				az: 'Mənim maşınım var',
-				en: 'I have a car'
-			}
-		},
-		{
-			topic: 'Zaman İfadələri',
-			azerbaijani: 'Mən gedirəm (indiki zaman)',
-			english: 'I go (ümumi) / I am going (indi)',
-			example: {
-				az: 'Mən məktəbə gedirəm',
-				en: 'I go to school (hər gün) / I am going to school (indi)'
-			}
-		}
-	];
-
 	const renderContent = () => {
 		switch (selectedFeature) {
 			case 'phrasal-verbs':
@@ -300,6 +243,42 @@ const ExtraFeatures = () => {
 								<h3 className='text-xl font-bold text-purple-600 mb-2'>"{item.idiom}"</h3>
 								<p className='text-gray-700 mb-2'>{item.meaning}</p>
 								<p className='text-gray-600 italic'>"{item.example}"</p>
+							</motion.div>
+						))}
+					</div>
+				);
+
+			case 'grammar-comparison':
+				return (
+					<div className='space-y-6'>
+						{grammarComparisons.map((item, index) => (
+							<motion.div
+								key={index}
+								initial={{ opacity: 0, x: -20 }}
+								animate={{ opacity: 1, x: 0 }}
+								transition={{ delay: index * 0.1 }}
+								className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20'
+							>
+								<h3 className='text-xl font-bold text-indigo-600 mb-4'>{item.topic}</h3>
+								
+								<div className='grid md:grid-cols-2 gap-6 mb-4'>
+									<div className='bg-blue-50 p-4 rounded-lg'>
+										<h4 className='font-semibold text-blue-800 mb-2'>🇦🇿 Azərbaycan dili</h4>
+										<p className='text-blue-700'>{item.azerbaijani}</p>
+									</div>
+									<div className='bg-green-50 p-4 rounded-lg'>
+										<h4 className='font-semibold text-green-800 mb-2'>🇬🇧 İngilis dili</h4>
+										<p className='text-green-700'>{item.english}</p>
+									</div>
+								</div>
+								
+								<div className='bg-gray-50 p-4 rounded-lg'>
+									<h4 className='font-semibold text-gray-800 mb-2'>📝 Nümunə</h4>
+									<div className='space-y-2'>
+										<p><strong>AZ:</strong> {item.example.az}</p>
+										<p><strong>EN:</strong> {item.example.en}</p>
+									</div>
+								</div>
 							</motion.div>
 						))}
 					</div>
