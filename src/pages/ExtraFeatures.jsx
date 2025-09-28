@@ -44,13 +44,6 @@ const ExtraFeatures = () => {
 			color: 'from-blue-500 to-cyan-500',
 		},
 		{
-			id: 'grammar-comparison',
-			title: currentLanguage === 'az' ? 'Qrammatika Müqayisəsi' : 'Grammar Comparison',
-			description: currentLanguage === 'az' ? 'Azərbaycan və İngilis dilinin qrammatika fərqləri' : 'Grammar differences between Azerbaijani and English',
-			icon: BookOpen,
-			color: 'from-indigo-500 to-purple-500',
-		},
-		{
 			id: 'synonyms',
 			title: currentLanguage === 'az' ? 'Sinonimlər' : 'Synonyms',
 			description: currentLanguage === 'az' ? 'Sözlərin sinonimləri ilə lüğət ehtiyatınızı artırın' : 'Expand vocabulary with word synonyms',
@@ -167,6 +160,63 @@ const ExtraFeatures = () => {
 			meaning: 'götürmək',
 			example: 'I take the bus. / I took a taxi. / I have taken this route before.',
 		},
+	];
+
+	const grammarComparisons = [
+		{
+			topic: 'Cins (Gender)',
+			azerbaijani: 'Azərbaycan dilində cins yoxdur',
+			english: 'İngiliscədə he/she, actor/actress fərqi var',
+			example: {
+				az: 'O müəllimdir (kişi və ya qadın)',
+				en: 'He is a teacher / She is a teacher'
+			}
+		},
+		{
+			topic: 'Artikl (Articles)',
+			azerbaijani: 'Azərbaycan dilində artikl yoxdur',
+			english: 'İngiliscədə a/an/the artiklları var',
+			example: {
+				az: 'Kitab oxuyuram',
+				en: 'I am reading a book / the book'
+			}
+		},
+		{
+			topic: 'Sayılabilən/Sayılmayan İsimlər',
+			azerbaijani: 'Azərbaycan dilində "sudanlar" deyə bilərik',
+			english: 'İngiliscədə "waters" səhvdir, "water" sayılmazdır',
+			example: {
+				az: 'Çox sudanlar içdim',
+				en: 'I drank a lot of water (NOT waters)'
+			}
+		},
+		{
+			topic: 'Yaş İfadəsi',
+			azerbaijani: 'Mənim 20 yaşım var',
+			english: 'I am 20 years old (NOT I have 20 years)',
+			example: {
+				az: 'Mənim 25 yaşım var',
+				en: 'I am 25 years old'
+			}
+		},
+		{
+			topic: 'Sahib Olmaq',
+			azerbaijani: 'Mənim qardaşım var',
+			english: 'I have a brother (artikl lazımdır)',
+			example: {
+				az: 'Mənim maşınım var',
+				en: 'I have a car'
+			}
+		},
+		{
+			topic: 'Zaman İfadələri',
+			azerbaijani: 'Mən gedirəm (indiki zaman)',
+			english: 'I go (ümumi) / I am going (indi)',
+			example: {
+				az: 'Mən məktəbə gedirəm',
+				en: 'I go to school (hər gün) / I am going to school (indi)'
+			}
+		}
 	];
 
 	const renderContent = () => {
