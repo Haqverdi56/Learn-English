@@ -47,6 +47,7 @@ function App() {
 						<Route path='/profile' element={<Profile />} />
 						<Route path='/leaderboard' element={<Leaderboard />} />
 						<Route path='/level-test' element={<LevelTest />} />
+						<Route path='/video-learning' element={<VideoLearning />} />
 					</Routes>
 					<Footer />
 				</div>
