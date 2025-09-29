@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, RotateCcw, Check, X } from 'lucide-react';
+import { Volume2, RotateCcw, Check, X, Crown } from 'lucide-react';
 import { addToLearned, addToUnknown } from '../store/slices/vocabularySlice';
 import { wordsData, generateMoreWords } from '../data/words';
 import { useDispatch, useSelector } from 'react-redux';
