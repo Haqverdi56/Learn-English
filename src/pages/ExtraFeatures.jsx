@@ -71,6 +71,20 @@ const ExtraFeatures = () => {
 			icon: BookOpen,
 			color: 'from-teal-500 to-cyan-500',
 		},
+		{
+			id: 'grammar-comparison',
+			title: currentLanguage === 'az' ? 'Qrammatika Müqayisəsi' : 'Grammar Comparison',
+			description: currentLanguage === 'az' ? 'Azərbaycan və İngilis dilinin qrammatika fərqləri' : 'Grammar differences between Azerbaijani and English',
+			icon: BookOpen,
+			color: 'from-indigo-500 to-blue-500',
+		},
+		{
+			id: 'common-mistakes',
+			title: currentLanguage === 'az' ? 'Tipik Səhvlər' : 'Common Mistakes',
+			description: currentLanguage === 'az' ? 'Azərbaycanlıların ən çox etdiyi səhvlər' : 'Most common mistakes made by Azerbaijani speakers',
+			icon: Zap,
+			color: 'from-red-500 to-orange-500',
+		},
 	];
 
 	const phrasalVerbs = [
@@ -160,6 +174,87 @@ const ExtraFeatures = () => {
 			meaning: 'götürmək',
 			example: 'I take the bus. / I took a taxi. / I have taken this route before.',
 		},
+	];
+
+	const grammarComparisons = [
+		{
+			topic: currentLanguage === 'az' ? 'Cins (Gender)' : 'Gender',
+			azerbaijani: 'Azərbaycan dilində cins yoxdur. "O" həm kişi, həm də qadın üçün istifadə olunur.',
+			english: 'İngilis dilində şəxs əvəzlikləri cinslə bağlıdır: he (kişi), she (qadın), it (cansız).',
+			example: {
+				az: 'O müəllimdir. (kişi və ya qadın)',
+				en: 'He is a teacher. / She is a teacher.'
+			}
+		},
+		{
+			topic: currentLanguage === 'az' ? 'Artikl (a, an, the)' : 'Articles (a, an, the)',
+			azerbaijani: 'Azərbaycan dilində artikl yoxdur.',
+			english: 'İngilis dilində müəyyən (the) və qeyri-müəyyən (a/an) artiklər var.',
+			example: {
+				az: 'Kitab oxuyuram.',
+				en: 'I am reading a book. / I am reading the book.'
+			}
+		},
+		{
+			topic: currentLanguage === 'az' ? 'Sayılabilən/Sayılmayan İsimlər' : 'Countable/Uncountable Nouns',
+			azerbaijani: 'Azərbaycan dilində bəzi sözlər cəm şəklində işlədilir: "sular", "çaylar".',
+			english: 'İngilis dilində "water", "tea" sayılmayan isimdir və cəm şəkli yoxdur.',
+			example: {
+				az: 'Sular içirəm.',
+				en: 'I drink water. (NOT: I drink waters.)'
+			}
+		},
+		{
+			topic: currentLanguage === 'az' ? 'Yaş İfadəsi' : 'Age Expression',
+			azerbaijani: 'Azərbaycan dilində "Mənim 20 yaşım var" deyirik.',
+			english: 'İngilis dilində "I am 20 years old" deyirik, "I have 20 years" səhvdir.',
+			example: {
+				az: 'Mənim 25 yaşım var.',
+				en: 'I am 25 years old. (NOT: I have 25 years.)'
+			}
+		},
+		{
+			topic: currentLanguage === 'az' ? 'Sahib Olmaq' : 'Possession',
+			azerbaijani: 'Azərbaycan dilində "Mənim qardaşım var" deyirik.',
+			english: 'İngilis dilində artikl lazımdır: "I have a brother".',
+			example: {
+				az: 'Mənim maşınım var.',
+				en: 'I have a car. (NOT: I have car.)'
+			}
+		}
+	];
+
+	const commonMistakes = [
+		{
+			mistake: 'I have 20 years.',
+			correct: 'I am 20 years old.',
+			explanation: currentLanguage === 'az' ? 'Yaş üçün "have" deyil, "am/is/are" istifadə edilir.' : 'Use "am/is/are" for age, not "have".',
+			azerbaijani: 'Mənim 20 yaşım var.'
+		},
+		{
+			mistake: 'I have brother.',
+			correct: 'I have a brother.',
+			explanation: currentLanguage === 'az' ? 'Sayılabilən isimlər üçün artikl lazımdır.' : 'Countable nouns need an article.',
+			azerbaijani: 'Mənim qardaşım var.'
+		},
+		{
+			mistake: 'I am go to school.',
+			correct: 'I go to school.',
+			explanation: currentLanguage === 'az' ? 'Present Simple-də "am/is/are" və feil birlikdə işlədilmir.' : 'Don\'t use "am/is/are" with main verbs in Present Simple.',
+			azerbaijani: 'Mən məktəbə gedirəm.'
+		},
+		{
+			mistake: 'I drink waters.',
+			correct: 'I drink water.',
+			explanation: currentLanguage === 'az' ? '"Water" sayılmayan isimdir, cəm şəkli yoxdur.' : '"Water" is uncountable, no plural form.',
+			azerbaijani: 'Mən su içirəm.'
+		},
+		{
+			mistake: 'She is very beautiful woman.',
+			correct: 'She is a very beautiful woman.',
+			explanation: currentLanguage === 'az' ? 'Sayılabilən isimlər üçün artikl lazımdır.' : 'Countable nouns need an article.',
+			azerbaijani: 'O çox gözəl qadındır.'
+		}
 	];
 
 	const renderContent = () => {
