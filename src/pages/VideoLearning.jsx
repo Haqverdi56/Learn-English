@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Volume2, RotateCcw, CheckCircle, XCircle, Crown } from 'lucide-react';
+import { Play, Pause, Volume2, RotateCcw, CircleCheck as CheckCircle, Circle as XCircle, Crown } from 'lucide-react';
 import { videosData, getVideosByLevel, getAllVideoLevels } from '../data/videos';
 import { useSelector } from 'react-redux';
 import { selectCurrentLanguage } from '../store/slices/languageSlice';
