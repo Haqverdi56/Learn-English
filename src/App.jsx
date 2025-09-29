@@ -21,6 +21,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import Profile from './pages/Profile';
 import Footer from './components/Footer';
+import VideoLearning from './pages/VideoLearning';
 
 function App() {
 	return (

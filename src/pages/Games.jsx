@@ -219,6 +219,63 @@ const Games = () => {
 					</div>
 				);
 
+			case 'az-to-en':
+				return (
+					<div className='space-y-6'>
+						<div className='text-center'>
+							<h3 className='text-xl font-bold text-gray-800 mb-4'>
+								{currentLanguage === 'az' ? 'Bu cümləni İngilis dilinə çevirin:' : 'Translate this sentence to English:'}
+							</h3>
+							<div className='text-2xl font-bold text-orange-600 mb-6 bg-orange-50 p-4 rounded-lg'>
+								{question.azerbaijani}
+							</div>
+						</div>
+						
+						<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+							{question.options.map((option, index) => (
+								<button
+									key={index}
+									onClick={() => handleAnswer(option)}
+									disabled={showResult}
+									className={`p-4 text-left rounded-xl border-2 transition-all duration-200 ${
+										showResult
+											? option === question.correct
+												? 'bg-green-100 border-green-500 text-green-800'
+												: option === question.common_mistake
+												? 'bg-yellow-100 border-yellow-500 text-yellow-800'
+												: 'bg-gray-100 border-gray-300 text-gray-500'
+											: 'bg-white border-gray-200 hover:border-orange-500 hover:bg-orange-50'
+									}`}
+								>
+									<div className='flex items-center space-x-3'>
+										<span className='w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-bold'>
+											{String.fromCharCode(65 + index)}
+										</span>
+										<span>{option}</span>
+										{showResult && option === question.correct && <CheckCircle size={16} className='text-green-600 ml-auto' />}
+										{showResult && option === question.common_mistake && <span className='text-yellow-600 ml-auto text-xs'>Tipik səhv</span>}
+									</div>
+								</button>
+							))}
+						</div>
+
+						{showResult && (
+							<div className={`text-center p-4 rounded-lg ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+								<div className='flex items-center justify-center mb-2'>
+									{isCorrect ? <CheckCircle size={24} /> : <XCircle size={24} />}
+									<span className='ml-2 font-medium'>
+										{isCorrect ? (currentLanguage === 'az' ? 'Doğru!' : 'Correct!') : (currentLanguage === 'az' ? 'Səhv!' : 'Wrong!')}
+									</span>
+								</div>
+								<p className='mb-2'>{currentLanguage === 'az' ? 'Doğru cavab:' : 'Correct answer:'} <strong>{question.correct}</strong></p>
+								<div className='bg-blue-50 p-3 rounded-lg border border-blue-200 mt-3'>
+									<p className='text-blue-800 text-sm'><strong>💡 İzahat:</strong> {question.explanation}</p>
+								</div>
+							</div>
+						)}
+					</div>
+				);
+
 			case 'find-error':
 				return (
 					<div className='space-y-6'>

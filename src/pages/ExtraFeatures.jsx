@@ -178,82 +178,58 @@ const ExtraFeatures = () => {
 
 	const grammarComparisons = [
 		{
-			topic: currentLanguage === 'az' ? 'Cins (Gender)' : 'Gender',
-			azerbaijani: 'Azərbaycan dilində cins yoxdur. "O" həm kişi, həm də qadın üçün istifadə olunur.',
-			english: 'İngilis dilində şəxs əvəzlikləri cinslə bağlıdır: he (kişi), she (qadın), it (cansız).',
+			topic: 'Artikl (Articles)',
+			azerbaijani: 'Azərbaycan dilində artikl yoxdur',
+			english: 'İngilis dilində "a/an" və "the" artiklları var',
 			example: {
-				az: 'O müəllimdir. (kişi və ya qadın)',
-				en: 'He is a teacher. / She is a teacher.'
+				az: 'Mən kitab oxuyuram',
+				en: 'I am reading a book / I am reading the book'
 			}
 		},
 		{
-			topic: currentLanguage === 'az' ? 'Artikl (a, an, the)' : 'Articles (a, an, the)',
-			azerbaijani: 'Azərbaycan dilində artikl yoxdur.',
-			english: 'İngilis dilində müəyyən (the) və qeyri-müəyyən (a/an) artiklər var.',
+			topic: 'Fel zamanları (Verb Tenses)',
+			azerbaijani: 'Azərbaycan dilində 6 əsas zaman var',
+			english: 'İngilis dilində 12 əsas zaman var',
 			example: {
-				az: 'Kitab oxuyuram.',
-				en: 'I am reading a book. / I am reading the book.'
+				az: 'Mən yazıram / Mən yazmışam',
+				en: 'I write / I am writing / I have written / I have been writing'
 			}
 		},
 		{
-			topic: currentLanguage === 'az' ? 'Sayılabilən/Sayılmayan İsimlər' : 'Countable/Uncountable Nouns',
-			azerbaijani: 'Azərbaycan dilində bəzi sözlər cəm şəklində işlədilir: "sular", "çaylar".',
-			english: 'İngilis dilində "water", "tea" sayılmayan isimdir və cəm şəkli yoxdur.',
+			topic: 'Sözlərin sırası (Word Order)',
+			azerbaijani: 'Azərbaycan dilində SOV (Subyekt-Obyekt-Fel)',
+			english: 'İngilis dilində SVO (Subyekt-Fel-Obyekt)',
 			example: {
-				az: 'Sular içirəm.',
-				en: 'I drink water. (NOT: I drink waters.)'
-			}
-		},
-		{
-			topic: currentLanguage === 'az' ? 'Yaş İfadəsi' : 'Age Expression',
-			azerbaijani: 'Azərbaycan dilində "Mənim 20 yaşım var" deyirik.',
-			english: 'İngilis dilində "I am 20 years old" deyirik, "I have 20 years" səhvdir.',
-			example: {
-				az: 'Mənim 25 yaşım var.',
-				en: 'I am 25 years old. (NOT: I have 25 years.)'
-			}
-		},
-		{
-			topic: currentLanguage === 'az' ? 'Sahib Olmaq' : 'Possession',
-			azerbaijani: 'Azərbaycan dilində "Mənim qardaşım var" deyirik.',
-			english: 'İngilis dilində artikl lazımdır: "I have a brother".',
-			example: {
-				az: 'Mənim maşınım var.',
-				en: 'I have a car. (NOT: I have car.)'
+				az: 'Mən kitab oxuyuram',
+				en: 'I read book (I read a book)'
 			}
 		}
 	];
 
 	const commonMistakes = [
 		{
-			mistake: 'I have 20 years.',
-			correct: 'I am 20 years old.',
-			explanation: currentLanguage === 'az' ? 'Yaş üçün "have" deyil, "am/is/are" istifadə edilir.' : 'Use "am/is/are" for age, not "have".',
-			azerbaijani: 'Mənim 20 yaşım var.'
+			azerbaijani: 'Mən evdəyəm',
+			mistake: 'I am in home',
+			correct: 'I am at home',
+			explanation: '"Home" sözündən əvvəl "at" istifadə edilir, "in" deyil.'
 		},
 		{
-			mistake: 'I have brother.',
-			correct: 'I have a brother.',
-			explanation: currentLanguage === 'az' ? 'Sayılabilən isimlər üçün artikl lazımdır.' : 'Countable nouns need an article.',
-			azerbaijani: 'Mənim qardaşım var.'
+			azerbaijani: 'Mən 25 yaşındayam',
+			mistake: 'I have 25 years old',
+			correct: 'I am 25 years old',
+			explanation: 'Yaş bildirmək üçün "be" feli istifadə edilir, "have" deyil.'
 		},
 		{
-			mistake: 'I am go to school.',
-			correct: 'I go to school.',
-			explanation: currentLanguage === 'az' ? 'Present Simple-də "am/is/are" və feil birlikdə işlədilmir.' : 'Don\'t use "am/is/are" with main verbs in Present Simple.',
-			azerbaijani: 'Mən məktəbə gedirəm.'
+			azerbaijani: 'Mən ingilis dili öyrənirəm',
+			mistake: 'I learn English',
+			correct: 'I am learning English',
+			explanation: 'Hazırda davam edən hərəkət üçün Present Continuous istifadə edilir.'
 		},
 		{
-			mistake: 'I drink waters.',
-			correct: 'I drink water.',
-			explanation: currentLanguage === 'az' ? '"Water" sayılmayan isimdir, cəm şəkli yoxdur.' : '"Water" is uncountable, no plural form.',
-			azerbaijani: 'Mən su içirəm.'
-		},
-		{
-			mistake: 'She is very beautiful woman.',
-			correct: 'She is a very beautiful woman.',
-			explanation: currentLanguage === 'az' ? 'Sayılabilən isimlər üçün artikl lazımdır.' : 'Countable nouns need an article.',
-			azerbaijani: 'O çox gözəl qadındır.'
+			azerbaijani: 'Mən məktəbə gedirəm',
+			mistake: 'I go to school with bus',
+			correct: 'I go to school by bus',
+			explanation: 'Nəqliyyat vasitəsi bildirmək üçün "by" istifadə edilir, "with" deyil.'
 		}
 	];
 
@@ -373,6 +349,44 @@ const ExtraFeatures = () => {
 										<p><strong>AZ:</strong> {item.example.az}</p>
 										<p><strong>EN:</strong> {item.example.en}</p>
 									</div>
+								</div>
+							</motion.div>
+						))}
+					</div>
+				);
+
+			case 'common-mistakes':
+				return (
+					<div className='space-y-4'>
+						{commonMistakes.map((item, index) => (
+							<motion.div
+								key={index}
+								initial={{ opacity: 0, x: -20 }}
+								animate={{ opacity: 1, x: 0 }}
+								transition={{ delay: index * 0.1 }}
+								className='bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20'
+							>
+								<div className='mb-4'>
+									<h4 className='font-semibold text-gray-700 mb-2'>
+										{currentLanguage === 'az' ? 'Azərbaycan dilində:' : 'In Azerbaijani:'}
+									</h4>
+									<p className='text-blue-600 font-medium'>{item.azerbaijani}</p>
+								</div>
+								
+								<div className='grid md:grid-cols-2 gap-4 mb-4'>
+									<div className='bg-red-50 p-4 rounded-lg border border-red-200'>
+										<h4 className='font-semibold text-red-800 mb-2'>❌ Səhv</h4>
+										<p className='text-red-700'>{item.mistake}</p>
+									</div>
+									<div className='bg-green-50 p-4 rounded-lg border border-green-200'>
+										<h4 className='font-semibold text-green-800 mb-2'>✅ Doğru</h4>
+										<p className='text-green-700'>{item.correct}</p>
+									</div>
+								</div>
+								
+								<div className='bg-blue-50 p-4 rounded-lg border border-blue-200'>
+									<h4 className='font-semibold text-blue-800 mb-2'>💡 İzahat</h4>
+									<p className='text-blue-700'>{item.explanation}</p>
 								</div>
 							</motion.div>
 						))}

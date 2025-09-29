@@ -34,6 +34,7 @@ const Navigation = () => {
 		{ path: '/daily-words', label: currentLanguage === 'az' ? 'Hər gün 10' : 'Daily 10' },
 		{ path: '/leaderboard', label: currentLanguage === 'az' ? 'Liderlik' : 'Leaderboard' },
 		{ path: '/level-test', label: currentLanguage === 'az' ? 'Səviyyə Testi' : 'Level Test' },
+		{ path: '/video-learning', label: currentLanguage === 'az' ? 'Video ilə Öyrən' : 'Learn with Videos' },
 	];
 
 	const handleAuthAction = (mode) => {
